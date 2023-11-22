@@ -1,0 +1,42 @@
+$side: 8;
+
+body {
+  background: radial-gradient(#434343, black);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat($side, 1fr);
+  grid-template-rows: repeat($side, 1fr);
+
+  width: min(100%, 500px);
+  aspect-ratio: 1 / 1;
+  margin: auto;
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  user-select: none;
+
+  font-size: 3rem;
+
+  &.light {
+    // background-color: #ffcf9f;
+    background-color: lightcyan;
+  }
+
+  &.bold {
+    // background-color: #d28c45;
+    background-color: darkturquoise;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .square {
+    font-size: 2rem;
+  }
+}
