@@ -1,10 +1,11 @@
 import { Fragment, useState } from "react";
 
-import { Board } from "../types";
+import { Board as BoardType, Color } from "../types";
 import { WHITE } from "../constants";
+import { getMoves } from "../moves";
 import Square from "./Square";
 
-const initialBoard: Board = [
+const initialBoard: BoardType = [
   ["br", "bn", "bb", "bq", "bk", "bb", "bn", "br"],
   ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
   ["", "", "", "", "", "", "", ""],
@@ -16,7 +17,7 @@ const initialBoard: Board = [
 ];
 
 function Board() {
-  const [turn, setTurn] = useState(WHITE);
+  const [turn, setTurn] = useState<Color>(WHITE);
   const [board, setBoard] = useState(initialBoard);
   const [currentSquare, setCurrentSquare] = useState("");
   const [squaresToHighlight, setSquaresToHighlight] = useState<string[]>([]);
@@ -37,7 +38,7 @@ function Board() {
     }
 
     // Must select pieces with correct color
-    const [pieceColor, pieceSymbol] = square;
+    const [pieceColor] = square;
     if (pieceColor !== turn) {
       if (currentSquare) {
         clearHighlight();
@@ -54,8 +55,10 @@ function Board() {
     setCurrentSquare(`${row}-${col}`);
 
     // Get valid moves for the piece
+    const moves = getMoves(board, row, col, turn);
+
     // Highlight current square and valid moves
-    setSquaresToHighlight(() => [`${row}-${col}`]);
+    setSquaresToHighlight(() => [`${row}-${col}`, ...moves]);
   };
 
   const shouldHighlight = (row: number, col: number) =>
