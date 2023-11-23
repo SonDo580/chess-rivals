@@ -1,10 +1,10 @@
 import { Fragment, useState } from "react";
 
-import { Square as SquareType } from "../types";
+import { Board } from "../types";
 import { WHITE } from "../constants";
 import Square from "./Square";
 
-const initialBoard: SquareType[][] = [
+const initialBoard: Board = [
   ["br", "bn", "bb", "bq", "bk", "bb", "bn", "br"],
   ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
   ["", "", "", "", "", "", "", ""],
@@ -51,8 +51,10 @@ function Board() {
       return;
     }
 
-    // Select a different piece
     setCurrentSquare(`${row}-${col}`);
+
+    // Get valid moves for the piece
+    // Highlight current square and valid moves
     setSquaresToHighlight(() => [`${row}-${col}`]);
   };
 

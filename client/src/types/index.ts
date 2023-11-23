@@ -6,4 +6,6 @@ type Piece = `${Color}${PieceSymbol}`;
 
 type Square = Piece | "";
 
-export type { Color, PieceSymbol, Piece, Square };
+type Board = Square[][];
+
+export type { Color, PieceSymbol, Piece, Square, Board };
