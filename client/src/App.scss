@@ -25,13 +25,17 @@ body {
   font-size: 3rem;
 
   &.light {
-    // background-color: #ffcf9f;
     background-color: lightcyan;
   }
 
   &.bold {
-    // background-color: #d28c45;
     background-color: darkturquoise;
+  }
+
+  &.highlight {
+    background-color: #fff;
+    box-shadow: 0 0 10px 0 inset cornflowerblue;
+    z-index: 1;
   }
 }
 
