@@ -1,5 +1,5 @@
 import { Board, Color, SquarePos } from "../types";
-import { onBoard } from "../utils";
+import { onBoard, posString } from "../utils";
 
 // TODO: Check
 
@@ -40,7 +40,7 @@ const getKnightMoves = (
     }
 
     // Add the move
-    moves.push(`${destRow}-${destCol}`);
+    moves.push(posString(destRow, destCol));
   }
 
   return moves;

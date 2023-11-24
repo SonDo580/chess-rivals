@@ -1,6 +1,6 @@
 import { WHITE } from "../constants";
 import { Board, Color, SquarePos } from "../types";
-import { validCol, validRow } from "../utils";
+import { posString, validCol, validRow } from "../utils";
 
 // TODO:
 // Check
@@ -24,14 +24,14 @@ const getPawnMoves = (
 
   // Check if the square right ahead is empty
   if (!board[destRow][col]) {
-    moves.push(`${destRow}-${col}`);
+    moves.push(posString(destRow, col));
 
     // Can move 2 squares from the start position
     if (row === startRow) {
       const secondDestRow = row + 2 * rowOffset;
       // Check if the destination is empty
       if (!board[secondDestRow][col]) {
-        moves.push(`${secondDestRow}-${col}`);
+        moves.push(posString(secondDestRow, col));
       }
     }
   }
@@ -53,7 +53,7 @@ const getPawnMoves = (
     // Add the move if hit opponent's piece
     const [pieceColor] = square;
     if (pieceColor !== turn) {
-      moves.push(`${destRow}-${destCol}`);
+      moves.push(posString(destRow, destCol));
     }
   }
 

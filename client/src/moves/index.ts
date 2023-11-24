@@ -2,8 +2,10 @@ import { produce } from "immer";
 
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
 import { Board, Color, SquarePos } from "../types";
-import { getKnightMoves } from "./knight";
+import { posParse } from "../utils";
+
 import { getPawnMoves } from "./pawn";
+import { getKnightMoves } from "./knight";
 import { getBishopRookQueenMoves } from "./brq";
 import { getKingMoves } from "./king";
 
@@ -43,14 +45,14 @@ const getMoves = (
 };
 
 // Make a valid move
-const makeMove = (board: Board, from: string, to: string) => {
-  const [fromRow, fromCol] = from.split("-");
-  const [toRow, toCol] = to.split("-");
-  const piece = board[Number(fromRow)][Number(fromCol)];
+const makeMove = (board: Board, from: SquarePos, to: SquarePos) => {
+  const [fromRow, fromCol] = posParse(from);
+  const [toRow, toCol] = posParse(to);
+  const piece = board[fromRow][fromCol];
 
   return produce(board, (draft) => {
-    draft[Number(toRow)][Number(toCol)] = piece;
-    draft[Number(fromRow)][Number(fromCol)] = "";
+    draft[toRow][toCol] = piece;
+    draft[fromRow][fromCol] = "";
   });
 };
 

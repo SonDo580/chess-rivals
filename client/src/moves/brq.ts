@@ -1,6 +1,6 @@
 import { BISHOP, QUEEN, ROOK } from "../constants";
 import { Board, Color, PieceSymbol, SquarePos } from "../types";
-import { onBoard } from "../utils";
+import { onBoard, posString } from "../utils";
 
 // TODO:
 // Check
@@ -54,10 +54,12 @@ const getBishopRookQueenMoves = (
         break;
       }
 
+      const pos = posString(currentRow, currentCol);
       const square = board[currentRow][currentCol];
+
       // Add empty squares
       if (!square) {
-        moves.push(`${currentRow}-${currentCol}`);
+        moves.push(pos);
         continue;
       }
 
@@ -65,7 +67,7 @@ const getBishopRookQueenMoves = (
       // Add the move and stop if hit an opponent's piece
       const [pieceColor] = square;
       if (pieceColor !== turn) {
-        moves.push(`${currentRow}-${currentCol}`);
+        moves.push(pos);
       }
       break;
     }
