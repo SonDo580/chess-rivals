@@ -32,13 +32,14 @@ const getKnightMoves = (
       continue;
     }
 
-    // Piece with the same color
+    // Hit a same-color piece
     const square = board[destRow][destCol];
     const [pieceColor] = square;
     if (pieceColor === turn) {
       continue;
     }
 
+    // Add the move
     moves.push(`${destRow}-${destCol}`);
   }
 

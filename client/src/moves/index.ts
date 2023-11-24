@@ -4,9 +4,7 @@ import { BISHOP, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
 import { Board, Color } from "../types";
 import { getKnightMoves } from "./knight";
 import { getPawnMoves } from "./pawn";
-import { getBishopMoves } from "./bishop";
-import { getRookMoves } from "./rook";
-import { getQueenMoves } from "./queen";
+import { getBishopRookQueenMoves } from "./brq";
 
 // Get all valid moves for a piece
 const getMoves = (
@@ -33,11 +31,9 @@ const getMoves = (
     case KNIGHT:
       return getKnightMoves(board, row, col, turn);
     case BISHOP:
-      return getBishopMoves(board, row, col, turn);
     case ROOK:
-      return getRookMoves(board, row, col, turn);
     case QUEEN:
-      return getQueenMoves(board, row, col, turn);
+      return getBishopRookQueenMoves(board, row, col, turn, pieceSymbol);
     default:
       return [];
   }

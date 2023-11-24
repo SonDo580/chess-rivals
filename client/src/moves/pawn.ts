@@ -34,6 +34,7 @@ const getPawnMoves = (board: Board, row: number, col: number, turn: Color) => {
   // Check if there're opponents to be 'defeated'
   for (const colOffset of [1, -1]) {
     const destCol = col + colOffset;
+    // Jump out of the board
     if (!validCol(destCol)) {
       continue;
     }
@@ -44,7 +45,7 @@ const getPawnMoves = (board: Board, row: number, col: number, turn: Color) => {
       continue;
     }
 
-    // The square contains opponent's piece
+    // Add the move if hit opponent's piece
     const [pieceColor] = square;
     if (pieceColor !== turn) {
       moves.push(`${destRow}-${destCol}`);

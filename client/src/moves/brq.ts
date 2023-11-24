@@ -1,24 +1,43 @@
-import { Board, Color } from "../types";
+import { BISHOP, QUEEN, ROOK } from "../constants";
+import { Board, Color, PieceSymbol } from "../types";
 import { onBoard } from "../utils";
 
 // TODO:
 // Check
 
-// row and col offsets from current position
-const directions: [number, number][] = [
+// row and col offsets for diagonals
+const bishopDirections: [number, number][] = [
   [-1, -1],
   [-1, 1],
   [1, -1],
   [1, 1],
 ];
 
-const getBishopMoves = (
+// row and col offsets for horizontal and vertical lines
+const rookDirections: [number, number][] = [
+  [-1, 0],
+  [1, 0],
+  [0, -1],
+  [0, 1],
+];
+
+const DIRECTIONS: {
+  [piece: string]: [number, number][];
+} = {
+  [BISHOP]: bishopDirections,
+  [ROOK]: rookDirections,
+  [QUEEN]: [...bishopDirections, ...rookDirections],
+};
+
+const getBishopRookQueenMoves = (
   board: Board,
   row: number,
   col: number,
-  turn: Color
+  turn: Color,
+  piece: PieceSymbol
 ) => {
   const moves: string[] = [];
+  const directions = DIRECTIONS[piece];
 
   for (const direction of directions) {
     let currentRow = row;
@@ -30,7 +49,7 @@ const getBishopMoves = (
       currentRow = currentRow + direction[0];
       currentCol = currentCol + direction[1];
 
-      // Jump out of the board
+      // Stop if jump out of the board
       if (!onBoard(currentRow, currentCol)) {
         break;
       }
@@ -55,4 +74,4 @@ const getBishopMoves = (
   return moves;
 };
 
-export { getBishopMoves };
+export { getBishopRookQueenMoves };
