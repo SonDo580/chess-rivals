@@ -1,11 +1,12 @@
 import { produce } from "immer";
 
-import { BISHOP, KNIGHT, PAWN, ROOK } from "../constants";
+import { BISHOP, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
 import { Board, Color } from "../types";
 import { getKnightMoves } from "./knight";
 import { getPawnMoves } from "./pawn";
 import { getBishopMoves } from "./bishop";
 import { getRookMoves } from "./rook";
+import { getQueenMoves } from "./queen";
 
 // Get all valid moves for a piece
 const getMoves = (
@@ -35,6 +36,8 @@ const getMoves = (
       return getBishopMoves(board, row, col, turn);
     case ROOK:
       return getRookMoves(board, row, col, turn);
+    case QUEEN:
+      return getQueenMoves(board, row, col, turn);
     default:
       return [];
   }
