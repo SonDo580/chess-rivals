@@ -21,7 +21,7 @@ const getPawnMoves = (board: Board, row: number, col: number, turn: Color) => {
   if (!board[destRow][col]) {
     moves.push(`${destRow}-${col}`);
 
-    // Can move 2 squares if this is the start position
+    // Can move 2 squares from the start position
     if (row === startRow) {
       const secondDestRow = row + 2 * rowOffset;
       // Check if the destination is empty
