@@ -21,7 +21,6 @@ body {
 
   cursor: pointer;
   user-select: none;
-
   font-size: 3rem;
 
   &.light {
@@ -35,7 +34,11 @@ body {
   &.highlight {
     background-color: #fff;
     box-shadow: 0 0 10px 0 inset cornflowerblue;
-    z-index: 1;
+  }
+
+  &.last {
+    background-color: #fff;
+    box-shadow: 0 0 10px 0 inset yellowgreen;
   }
 }
 

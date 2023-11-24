@@ -20,8 +20,14 @@ function Board() {
   const [turn, setTurn] = useState<Color>(WHITE);
   const [board, setBoard] = useState(initialBoard);
   const [currentSquare, setCurrentSquare] = useState("");
+  const [lastMove, setLastMove] = useState("");
   const [moves, setMoves] = useState<string[]>([]);
   const [squaresToHighlight, setSquaresToHighlight] = useState<string[]>([]);
+
+  const shouldHighlight = (row: number, col: number) =>
+    squaresToHighlight.includes(`${row}-${col}`);
+
+  const isLastMove = (row: number, col: number) => lastMove === `${row}-${col}`;
 
   const clearHighlight = () => {
     setCurrentSquare("");
@@ -38,6 +44,7 @@ function Board() {
     // Make a valid move
     if (currentSquare && moves.includes(`${row}-${col}`)) {
       setBoard(makeMove(board, currentSquare, `${row}-${col}`));
+      setLastMove(`${row}-${col}`);
       swapTurn();
       clearHighlight();
       return;
@@ -80,9 +87,6 @@ function Board() {
     setSquaresToHighlight(() => [`${row}-${col}`, ...validMoves]);
   };
 
-  const shouldHighlight = (row: number, col: number) =>
-    squaresToHighlight.includes(`${row}-${col}`);
-
   return (
     <div className="board">
       {board.map((row, i) => (
@@ -94,6 +98,7 @@ function Board() {
               row={i}
               col={j}
               highlight={shouldHighlight(i, j)}
+              lastMove={isLastMove(i, j)}
               selectSquare={selectSquare}
             />
           ))}
