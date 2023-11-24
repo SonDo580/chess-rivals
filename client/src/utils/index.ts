@@ -1,4 +1,7 @@
-const onBoard = (row: number, col: number) =>
-  row >= 0 && row < 8 && col >= 0 && col < 8;
+const validRow = (row: number) => row >= 0 && row < 8;
 
-export { onBoard };
+const validCol = (col: number) => col >= 0 && col < 8;
+
+const onBoard = (row: number, col: number) => validRow(row) && validCol(col);
+
+export { onBoard, validRow, validCol };

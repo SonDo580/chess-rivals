@@ -1,8 +1,9 @@
 import { produce } from "immer";
 
-import { KNIGHT } from "../constants";
+import { KNIGHT, PAWN } from "../constants";
 import { Board, Color } from "../types";
 import { getKnightMoves } from "./knight";
+import { getPawnMoves } from "./pawn";
 
 // Get all valid moves for a piece
 const getMoves = (
@@ -24,6 +25,8 @@ const getMoves = (
   }
 
   switch (pieceSymbol) {
+    case PAWN:
+      return getPawnMoves(board, row, col, turn);
     case KNIGHT:
       return getKnightMoves(board, row, col, turn);
     default:

@@ -1,6 +1,8 @@
 import { Board, Color } from "../types";
 import { onBoard } from "../utils";
 
+// TODO: Check
+
 // row and col offsets from current position
 const directions: [number, number][] = [
   [-1, -2],
@@ -25,10 +27,12 @@ const getKnightMoves = (
     const destRow = row + direction[0];
     const destCol = col + direction[1];
 
+    // Jump out of the board
     if (!onBoard(destRow, destCol)) {
       continue;
     }
 
+    // Piece with the same color
     const square = board[destRow][destCol];
     const [pieceColor] = square;
     if (pieceColor === turn) {
