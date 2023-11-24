@@ -42,6 +42,51 @@ body {
   }
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba($color: #000, $alpha: 0.5);
+}
+
+.promote {
+  background-color: white;
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+
+  h1 {
+    color: darkblue;
+    font-size: 2rem;
+    margin-top: 0;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}
+
+button {
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: darkslategray;
+
+  &:hover {
+    background-color: slategray;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .square {
     font-size: 2rem;

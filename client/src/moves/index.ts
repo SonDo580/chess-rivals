@@ -1,7 +1,7 @@
 import { produce } from "immer";
 
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
-import { Board, Color, SquarePos } from "../types";
+import { Board, Color, Piece, SquarePos } from "../types";
 import { posParse } from "../utils";
 
 import { getPawnMoves } from "./pawn";
@@ -56,4 +56,12 @@ const makeMove = (board: Board, from: SquarePos, to: SquarePos) => {
   });
 };
 
-export { getMoves, makeMove };
+// Update a square with the given piece
+const updateBoard = (board: Board, pos: SquarePos, piece: Piece) => {
+  const [row, col] = posParse(pos);
+  return produce(board, (draft) => {
+    draft[row][col] = piece;
+  });
+};
+
+export { getMoves, makeMove, updateBoard };
