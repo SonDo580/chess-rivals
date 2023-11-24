@@ -1,5 +1,5 @@
 import { Board, Color } from "../types";
-import { onBoard } from "../utils/board";
+import { onBoard } from "../utils";
 
 // row and col offsets from current position
 const directions: [number, number][] = [

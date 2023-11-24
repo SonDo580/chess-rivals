@@ -1,8 +1,8 @@
 import { Fragment, useState } from "react";
 
 import { Board as BoardType, Color } from "../types";
-import { WHITE } from "../constants";
-import { getMoves } from "../moves";
+import { BLACK, WHITE } from "../constants";
+import { getMoves, makeMove } from "../moves";
 import Square from "./Square";
 
 const initialBoard: BoardType = [
@@ -20,6 +20,7 @@ function Board() {
   const [turn, setTurn] = useState<Color>(WHITE);
   const [board, setBoard] = useState(initialBoard);
   const [currentSquare, setCurrentSquare] = useState("");
+  const [moves, setMoves] = useState<string[]>([]);
   const [squaresToHighlight, setSquaresToHighlight] = useState<string[]>([]);
 
   const clearHighlight = () => {
@@ -27,11 +28,26 @@ function Board() {
     setSquaresToHighlight(() => []);
   };
 
+  const swapTurn = () => {
+    setTurn((turn) => (turn === WHITE ? BLACK : WHITE));
+  };
+
+  // first click shows possible moves
+  // second click selects a move
   const selectSquare = (row: number, col: number) => {
-    const square = board[row][col];
+    // Make a valid move
+    if (currentSquare && moves.includes(`${row}-${col}`)) {
+      setBoard(makeMove(board, currentSquare, `${row}-${col}`));
+      swapTurn();
+      clearHighlight();
+      return;
+    }
+
     // Must not select an empty square
+    const square = board[row][col];
     if (!square) {
       if (currentSquare) {
+        setMoves([]);
         clearHighlight();
       }
       return;
@@ -41,6 +57,7 @@ function Board() {
     const [pieceColor] = square;
     if (pieceColor !== turn) {
       if (currentSquare) {
+        setMoves([]);
         clearHighlight();
       }
       return;
@@ -48,6 +65,7 @@ function Board() {
 
     // Click the same piece twice
     if (currentSquare === `${row}-${col}`) {
+      setMoves([]);
       clearHighlight();
       return;
     }
@@ -55,10 +73,11 @@ function Board() {
     setCurrentSquare(`${row}-${col}`);
 
     // Get valid moves for the piece
-    const moves = getMoves(board, row, col, turn);
+    const validMoves = getMoves(board, row, col, turn);
+    setMoves(validMoves);
 
     // Highlight current square and valid moves
-    setSquaresToHighlight(() => [`${row}-${col}`, ...moves]);
+    setSquaresToHighlight(() => [`${row}-${col}`, ...validMoves]);
   };
 
   const shouldHighlight = (row: number, col: number) =>
