@@ -1,5 +1,5 @@
 import { WHITE } from "../constants";
-import { Board, Color } from "../types";
+import { Board, Color, SquarePos } from "../types";
 import { validCol, validRow } from "../utils";
 
 // TODO:
@@ -7,8 +7,13 @@ import { validCol, validRow } from "../utils";
 // En passant
 // Promotion
 
-const getPawnMoves = (board: Board, row: number, col: number, turn: Color) => {
-  const moves: string[] = [];
+const getPawnMoves = (
+  board: Board,
+  row: number,
+  col: number,
+  turn: Color
+): SquarePos[] => {
+  const moves: SquarePos[] = [];
   const startRow = turn === WHITE ? 6 : 1;
   const rowOffset = turn === WHITE ? -1 : 1;
 

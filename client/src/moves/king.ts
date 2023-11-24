@@ -1,4 +1,4 @@
-import { Board, Color } from "../types";
+import { Board, Color, SquarePos } from "../types";
 import { onBoard } from "../utils";
 
 // TODO:
@@ -17,8 +17,13 @@ const directions: [number, number][] = [
   [0, 1],
 ];
 
-const getKingMoves = (board: Board, row: number, col: number, turn: Color) => {
-  const moves: string[] = [];
+const getKingMoves = (
+  board: Board,
+  row: number,
+  col: number,
+  turn: Color
+): SquarePos[] => {
+  const moves: SquarePos[] = [];
 
   // Check all surrouding squares
   for (const direction of directions) {

@@ -1,7 +1,7 @@
 import { produce } from "immer";
 
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
-import { Board, Color } from "../types";
+import { Board, Color, SquarePos } from "../types";
 import { getKnightMoves } from "./knight";
 import { getPawnMoves } from "./pawn";
 import { getBishopRookQueenMoves } from "./brq";
@@ -13,7 +13,7 @@ const getMoves = (
   row: number,
   col: number,
   turn: Color
-): string[] => {
+): SquarePos[] => {
   // Empty square
   const square = board[row][col];
   if (!square) {

@@ -1,5 +1,5 @@
 import { BISHOP, QUEEN, ROOK } from "../constants";
-import { Board, Color, PieceSymbol } from "../types";
+import { Board, Color, PieceSymbol, SquarePos } from "../types";
 import { onBoard } from "../utils";
 
 // TODO:
@@ -35,8 +35,8 @@ const getBishopRookQueenMoves = (
   col: number,
   turn: Color,
   piece: PieceSymbol
-) => {
-  const moves: string[] = [];
+): SquarePos[] => {
+  const moves: SquarePos[] = [];
   const directions = DIRECTIONS[piece];
 
   for (const direction of directions) {

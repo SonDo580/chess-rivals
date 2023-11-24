@@ -8,4 +8,6 @@ type Square = Piece | "";
 
 type Board = Square[][];
 
-export type { Color, PieceSymbol, Piece, Square, Board };
+type SquarePos = `${number}-${number}`;
+
+export type { Color, PieceSymbol, Piece, Square, Board, SquarePos };

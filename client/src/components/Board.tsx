@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 
-import { Board as BoardType, Color } from "../types";
+import { Board as BoardType, Color, SquarePos } from "../types";
 import { BLACK, WHITE } from "../constants";
 import { getMoves, makeMove } from "../moves";
 import Square from "./Square";
@@ -19,10 +19,10 @@ const initialBoard: BoardType = [
 function Board() {
   const [turn, setTurn] = useState<Color>(WHITE);
   const [board, setBoard] = useState(initialBoard);
-  const [currentSquare, setCurrentSquare] = useState("");
-  const [lastMove, setLastMove] = useState("");
-  const [moves, setMoves] = useState<string[]>([]);
-  const [squaresToHighlight, setSquaresToHighlight] = useState<string[]>([]);
+  const [currentSquare, setCurrentSquare] = useState<SquarePos | "">("");
+  const [lastMove, setLastMove] = useState<SquarePos | "">("");
+  const [moves, setMoves] = useState<SquarePos[]>([]);
+  const [squaresToHighlight, setSquaresToHighlight] = useState<SquarePos[]>([]);
 
   const shouldHighlight = (row: number, col: number) =>
     squaresToHighlight.includes(`${row}-${col}`);

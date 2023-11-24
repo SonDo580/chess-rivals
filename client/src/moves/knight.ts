@@ -1,4 +1,4 @@
-import { Board, Color } from "../types";
+import { Board, Color, SquarePos } from "../types";
 import { onBoard } from "../utils";
 
 // TODO: Check
@@ -20,8 +20,8 @@ const getKnightMoves = (
   row: number,
   col: number,
   turn: Color
-) => {
-  const moves: string[] = [];
+): SquarePos[] => {
+  const moves: SquarePos[] = [];
 
   for (const direction of directions) {
     const destRow = row + direction[0];
