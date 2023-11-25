@@ -10,6 +10,7 @@ import {
 import { BLACK, WHITE } from "../constants";
 import { getMoves, makeMove, updateBoard } from "../moves";
 import { needPromotion, posString } from "../utils";
+import useToggle from "../hooks/useToggle";
 
 import Square from "./Square";
 import Promote from "./Promote";
@@ -32,15 +33,8 @@ function Board() {
   const [lastMove, setLastMove] = useState<SquarePos | "">("");
   const [moves, setMoves] = useState<SquarePos[]>([]);
   const [squaresToHighlight, setSquaresToHighlight] = useState<SquarePos[]>([]);
-  const [promoteModalVisible, setPromoteModalVisible] = useState(false);
-
-  const showPromoteModal = () => {
-    setPromoteModalVisible(true);
-  };
-
-  const hidePromoteModal = () => {
-    setPromoteModalVisible(false);
-  };
+  const [promoteModalVisible, showPromoteModal, hidePromoteModal] =
+    useToggle(false);
 
   const shouldHighlight = (row: number, col: number) =>
     squaresToHighlight.includes(posString(row, col));
