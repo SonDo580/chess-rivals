@@ -1,32 +1,17 @@
 import { BISHOP, QUEEN, ROOK } from "../constants";
+import { DIRECTIONS } from "../constants/directions";
 import { Board, Color, PieceSymbol, SquarePos } from "../types";
 import { onBoard, posString } from "../utils";
 
 // TODO:
 // Check
 
-// row and col offsets for diagonals
-const bishopDirections: [number, number][] = [
-  [-1, -1],
-  [-1, 1],
-  [1, -1],
-  [1, 1],
-];
-
-// row and col offsets for horizontal and vertical lines
-const rookDirections: [number, number][] = [
-  [-1, 0],
-  [1, 0],
-  [0, -1],
-  [0, 1],
-];
-
-const DIRECTIONS: {
+const BRQ_DIRECTIONS: {
   [piece: string]: [number, number][];
 } = {
-  [BISHOP]: bishopDirections,
-  [ROOK]: rookDirections,
-  [QUEEN]: [...bishopDirections, ...rookDirections],
+  [BISHOP]: DIRECTIONS.DIAGONAL,
+  [ROOK]: DIRECTIONS.STRAIGHT,
+  [QUEEN]: DIRECTIONS.STAR,
 };
 
 const getBishopRookQueenMoves = (
@@ -37,7 +22,7 @@ const getBishopRookQueenMoves = (
   piece: PieceSymbol
 ): SquarePos[] => {
   const moves: SquarePos[] = [];
-  const directions = DIRECTIONS[piece];
+  const directions = BRQ_DIRECTIONS[piece];
 
   for (const direction of directions) {
     let currentRow = row;

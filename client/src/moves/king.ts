@@ -1,21 +1,11 @@
+import { DIRECTIONS } from "../constants/directions";
 import { Board, Color, SquarePos } from "../types";
 import { onBoard, posString } from "../utils";
 
 // TODO:
 // Check
+// Don't move near other king
 // Castling
-
-// row and col offsets
-const directions: [number, number][] = [
-  [-1, -1],
-  [-1, 1],
-  [1, -1],
-  [1, 1],
-  [-1, 0],
-  [1, 0],
-  [0, -1],
-  [0, 1],
-];
 
 const getKingMoves = (
   board: Board,
@@ -26,7 +16,7 @@ const getKingMoves = (
   const moves: SquarePos[] = [];
 
   // Check all surrouding squares
-  for (const direction of directions) {
+  for (const direction of DIRECTIONS.STAR) {
     const destRow = row + direction[0];
     const destCol = col + direction[1];
 

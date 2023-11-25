@@ -1,19 +1,8 @@
+import { DIRECTIONS } from "../constants/directions";
 import { Board, Color, SquarePos } from "../types";
 import { onBoard, posString } from "../utils";
 
 // TODO: Check
-
-// row and col offsets from current position
-const directions: [number, number][] = [
-  [-1, -2],
-  [-1, 2],
-  [1, -2],
-  [1, 2],
-  [-2, -1],
-  [-2, 1],
-  [2, -1],
-  [2, 1],
-];
 
 const getKnightMoves = (
   board: Board,
@@ -23,7 +12,7 @@ const getKnightMoves = (
 ): SquarePos[] => {
   const moves: SquarePos[] = [];
 
-  for (const direction of directions) {
+  for (const direction of DIRECTIONS.LSHAPE) {
     const destRow = row + direction[0];
     const destCol = col + direction[1];
 
