@@ -1,10 +1,13 @@
 import { produce } from "immer";
 
-import { BLACK, WHITE, defaultEnPassantInfo } from "../constants";
+import { BLACK, WHITE } from "../constants";
 import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
-import { ACTIONS, GameAction } from "./GameActions";
-import { checkEnPassant, needPromotion, posString } from "../utils";
 import { getMoves, makeMove, updateBoard } from "../moves";
+import { posString } from "../utils";
+import { checkEnPassant } from "../utils/enPassant";
+import { needPromotion } from "../utils/promote";
+
+import { ACTIONS, GameAction } from "./GameActions";
 
 const initialBoard: Board = [
   ["br", "bn", "bb", "bq", "bk", "bb", "bn", "br"],
@@ -27,6 +30,8 @@ type GameState = {
   needPromotion: boolean;
   enPassant: EnPassantInfo;
 };
+
+const defaultEnPassantInfo: EnPassantInfo = { move: "", pieces: [] };
 
 const initialState: GameState = {
   turn: WHITE,
@@ -141,5 +146,5 @@ const reducer = (state = initialState, action: GameAction): GameState => {
   }
 };
 
-export { initialState, reducer };
+export { initialState, reducer, defaultEnPassantInfo };
 export type { GameState };

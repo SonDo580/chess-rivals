@@ -2,7 +2,7 @@ import { produce } from "immer";
 
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
 import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
-import { posParse, posString } from "../utils";
+import { posParse } from "../utils";
 
 import { getPawnMoves } from "./pawn";
 import { getKnightMoves } from "./knight";

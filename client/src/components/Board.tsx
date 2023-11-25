@@ -3,10 +3,10 @@ import { Fragment, useContext } from "react";
 import { PieceSymbol } from "../types";
 import { isLastMove, shouldHighlight } from "../utils";
 import { GameContext } from "../contexts/GameContext";
+import { ACTIONS } from "../contexts/GameActions";
 
 import Square from "./Square";
 import Promote from "./Promote";
-import { ACTIONS } from "../contexts/GameActions";
 
 function Board() {
   const [state, dispatch] = useContext(GameContext);
