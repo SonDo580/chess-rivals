@@ -1,9 +1,9 @@
 import { produce } from "immer";
 
-import { BLACK, WHITE } from "../constants";
-import { Board, Color, Piece, SquarePos } from "../types";
+import { BLACK, WHITE, defaultEnPassantInfo } from "../constants";
+import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
 import { ACTIONS, GameAction } from "./GameActions";
-import { needPromotion, posString } from "../utils";
+import { checkEnPassant, needPromotion, posString } from "../utils";
 import { getMoves, makeMove, updateBoard } from "../moves";
 
 const initialBoard: Board = [
@@ -25,6 +25,7 @@ type GameState = {
   moves: SquarePos[];
   squaresToHighlight: SquarePos[];
   needPromotion: boolean;
+  enPassant: EnPassantInfo;
 };
 
 const initialState: GameState = {
@@ -35,6 +36,7 @@ const initialState: GameState = {
   moves: [],
   squaresToHighlight: [],
   needPromotion: false,
+  enPassant: defaultEnPassantInfo,
 };
 
 const clearSelection = (draft: GameState) => {
@@ -54,17 +56,24 @@ const reducer = (state = initialState, action: GameAction): GameState => {
       // second click selects a move
       return produce(state, (draft) => {
         const { row, col } = action;
-        const { turn, board, currentSquare, moves } = draft;
+        const { turn, board, currentSquare, moves, enPassant } = draft;
 
         // Get position string for selected square
         const pos = posString(row, col);
 
         // Make a valid move
         if (currentSquare && moves.includes(pos)) {
-          const newBoard = makeMove(board, currentSquare, pos);
+          const newBoard = makeMove(board, currentSquare, pos, enPassant);
           draft.board = newBoard;
           draft.lastMove = pos;
           clearSelection(draft);
+
+          // Check for en passant. Reset after making a move
+          if (enPassant.pieces.length > 0) {
+            draft.enPassant = defaultEnPassantInfo;
+          } else {
+            draft.enPassant = checkEnPassant(board, currentSquare, pos, turn);
+          }
 
           // Check for pawn promotion
           if (needPromotion(newBoard, pos, turn)) {
@@ -103,7 +112,7 @@ const reducer = (state = initialState, action: GameAction): GameState => {
         draft.currentSquare = pos;
 
         // Get valid moves for the piece
-        const validMoves = getMoves(board, row, col, turn);
+        const validMoves = getMoves(board, row, col, turn, enPassant);
         draft.moves = validMoves;
 
         // Highlight current square and valid moves

@@ -1,17 +1,16 @@
 import { WHITE } from "../constants";
-import { Board, Color, SquarePos } from "../types";
+import { Board, Color, EnPassantInfo, SquarePos } from "../types";
 import { posString, validCol, validRow } from "../utils";
 
 // TODO:
 // Check
-// En passant
-// Promotion
 
 const getPawnMoves = (
   board: Board,
   row: number,
   col: number,
-  turn: Color
+  turn: Color,
+  enPassant: EnPassantInfo
 ): SquarePos[] => {
   const moves: SquarePos[] = [];
   const startRow = turn === WHITE ? 6 : 1;
@@ -55,6 +54,11 @@ const getPawnMoves = (
     if (pieceColor !== turn) {
       moves.push(posString(destRow, destCol));
     }
+  }
+
+  // Check for en passant
+  if (enPassant.pieces.includes(posString(row, col))) {
+    moves.push(enPassant.move as SquarePos);
   }
 
   return moves;

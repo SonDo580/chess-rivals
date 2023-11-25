@@ -1,3 +1,5 @@
+import { EnPassantInfo } from "../types";
+
 // Color
 const WHITE = "w";
 const BLACK = "b";
@@ -10,4 +12,17 @@ const ROOK = "r";
 const QUEEN = "q";
 const KING = "k";
 
-export { WHITE, BLACK, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING };
+// En Passant
+const defaultEnPassantInfo: EnPassantInfo = { move: "", pieces: [] };
+
+export {
+  WHITE,
+  BLACK,
+  PAWN,
+  KNIGHT,
+  BISHOP,
+  ROOK,
+  QUEEN,
+  KING,
+  defaultEnPassantInfo,
+};

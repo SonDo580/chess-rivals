@@ -10,4 +10,17 @@ type Board = Square[][];
 
 type SquarePos = `${number}-${number}`;
 
-export type { Color, PieceSymbol, Piece, Square, Board, SquarePos };
+type EnPassantInfo = {
+  move: SquarePos | "";
+  pieces: SquarePos[];
+};
+
+export type {
+  Color,
+  PieceSymbol,
+  Piece,
+  Square,
+  Board,
+  SquarePos,
+  EnPassantInfo,
+};

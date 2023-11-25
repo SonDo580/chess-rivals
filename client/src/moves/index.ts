@@ -1,8 +1,8 @@
 import { produce } from "immer";
 
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
-import { Board, Color, Piece, SquarePos } from "../types";
-import { posParse } from "../utils";
+import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
+import { posParse, posString } from "../utils";
 
 import { getPawnMoves } from "./pawn";
 import { getKnightMoves } from "./knight";
@@ -14,7 +14,8 @@ const getMoves = (
   board: Board,
   row: number,
   col: number,
-  turn: Color
+  turn: Color,
+  enPassant: EnPassantInfo
 ): SquarePos[] => {
   // Empty square
   const square = board[row][col];
@@ -30,7 +31,7 @@ const getMoves = (
 
   switch (pieceSymbol) {
     case PAWN:
-      return getPawnMoves(board, row, col, turn);
+      return getPawnMoves(board, row, col, turn, enPassant);
     case KNIGHT:
       return getKnightMoves(board, row, col, turn);
     case BISHOP:
@@ -45,14 +46,24 @@ const getMoves = (
 };
 
 // Make a valid move
-const makeMove = (board: Board, from: SquarePos, to: SquarePos) => {
+const makeMove = (
+  board: Board,
+  from: SquarePos,
+  to: SquarePos,
+  enPassant: EnPassantInfo
+) => {
   const [fromRow, fromCol] = posParse(from);
   const [toRow, toCol] = posParse(to);
-  const piece = board[fromRow][fromCol];
+  const piece = board[fromRow][fromCol] as Piece;
 
   return produce(board, (draft) => {
     draft[toRow][toCol] = piece;
     draft[fromRow][fromCol] = "";
+
+    // Remove the pawn captured by en passant
+    if (enPassant.pieces.includes(from) && enPassant.move === to) {
+      draft[fromRow][toCol] = "";
+    }
   });
 };
 
