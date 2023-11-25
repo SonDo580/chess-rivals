@@ -14,6 +14,15 @@ const posParse = (pos: SquarePos): [number, number] => {
   return [Number(row), Number(col)];
 };
 
+const shouldHighlight = (
+  squaresToHighlight: SquarePos[],
+  row: number,
+  col: number
+) => squaresToHighlight.includes(posString(row, col));
+
+const isLastMove = (lastMove: SquarePos | "", row: number, col: number) =>
+  lastMove === posString(row, col);
+
 const needPromotion = (board: Board, lastMove: SquarePos, turn: Color) => {
   const [row, col] = posParse(lastMove);
 
@@ -30,4 +39,13 @@ const needPromotion = (board: Board, lastMove: SquarePos, turn: Color) => {
   return (turn === WHITE && row === 0) || (turn === BLACK && row === 7);
 };
 
-export { onBoard, validRow, validCol, posString, posParse, needPromotion };
+export {
+  onBoard,
+  validRow,
+  validCol,
+  posString,
+  posParse,
+  shouldHighlight,
+  isLastMove,
+  needPromotion,
+};
