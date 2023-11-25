@@ -1,11 +1,12 @@
 import "./App.scss";
+import { GameProvider } from "./contexts/GameContext";
 import Board from "./components/Board";
 
 function App() {
   return (
-    <div>
+    <GameProvider>
       <Board />
-    </div>
+    </GameProvider>
   );
 }
 
