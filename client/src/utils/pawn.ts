@@ -1,4 +1,4 @@
-import { PAWN } from "../constants";
+import { BLACK, PAWN, WHITE } from "../constants";
 import { Board, Color, EnPassantInfo, SquarePos } from "../types";
 import { defaultEnPassantInfo } from "../contexts/GameReducer";
 import { posParse, posString, validCol } from ".";
@@ -54,4 +54,20 @@ const checkEnPassant = (
   return defaultEnPassantInfo;
 };
 
-export { checkEnPassant };
+const needPromotion = (board: Board, lastMove: SquarePos, turn: Color) => {
+  const [row, col] = posParse(lastMove);
+
+  const square = board[row][col];
+  if (!square) {
+    return false;
+  }
+
+  const [pieceColor, pieceSymbol] = square;
+  if (pieceSymbol !== PAWN || pieceColor !== turn) {
+    return false;
+  }
+
+  return (turn === WHITE && row === 0) || (turn === BLACK && row === 7);
+};
+
+export { checkEnPassant, needPromotion };

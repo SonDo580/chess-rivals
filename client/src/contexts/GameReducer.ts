@@ -4,8 +4,7 @@ import { BLACK, WHITE } from "../constants";
 import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
 import { getMoves, makeMove, updateBoard } from "../moves";
 import { posString } from "../utils";
-import { checkEnPassant } from "../utils/enPassant";
-import { needPromotion } from "../utils/promote";
+import { checkEnPassant, needPromotion } from "../utils/pawn";
 
 import { ACTIONS, GameAction } from "./GameActions";
 
