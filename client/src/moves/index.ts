@@ -2,12 +2,13 @@ import { produce } from "immer";
 
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
 import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
-import { posParse } from "../utils";
+import { posParse, posString } from "../utils";
 
 import { getPawnMoves } from "./pawn";
 import { getKnightMoves } from "./knight";
 import { getBishopRookQueenMoves } from "./brq";
 import { getKingMoves } from "./king";
+import { getAttackedKing } from "../attacks";
 
 // Get all valid moves for a piece
 const getMoves = (
@@ -29,20 +30,38 @@ const getMoves = (
     return [];
   }
 
+  let moves: SquarePos[] = [];
   switch (pieceSymbol) {
     case PAWN:
-      return getPawnMoves(board, row, col, turn, enPassant);
+      moves = getPawnMoves(board, row, col, turn, enPassant);
+      break;
     case KNIGHT:
-      return getKnightMoves(board, row, col, turn);
+      moves = getKnightMoves(board, row, col, turn);
+      break;
     case BISHOP:
     case ROOK:
     case QUEEN:
-      return getBishopRookQueenMoves(board, row, col, turn, pieceSymbol);
+      moves = getBishopRookQueenMoves(board, row, col, turn, pieceSymbol);
+      break;
     case KING:
-      return getKingMoves(board, row, col, turn);
+      moves = getKingMoves(board, row, col, turn);
+      break;
     default:
       return [];
   }
+
+  // Exclude moves that put the king under attack
+  const validMoves: SquarePos[] = [];
+  const fromPos = posString(row, col);
+
+  for (const toPos of moves) {
+    const nextBoard = makeMove(board, fromPos, toPos, enPassant);
+    if (!getAttackedKing(nextBoard, turn)) {
+      validMoves.push(toPos);
+    }
+  }
+
+  return validMoves;
 };
 
 // Make a valid move
