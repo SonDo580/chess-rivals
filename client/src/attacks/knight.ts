@@ -1,7 +1,7 @@
 import { KNIGHT } from "../constants";
 import { DIRECTIONS } from "../constants/directions";
 import { Board, Color, SquarePos } from "../types";
-import { onBoard, posString } from "../utils";
+import { getPiece, onBoard, posString } from "../utils";
 
 // Check for knight attacks
 const isAttackedByKnight = (
@@ -41,7 +41,7 @@ const getKnightAttacks = (
       continue;
     }
 
-    if (board[currentRow][currentCol] === `${opponentColor}${KNIGHT}`) {
+    if (board[currentRow][currentCol] === getPiece(opponentColor, KNIGHT)) {
       attacks.push(posString(currentRow, currentCol));
     }
   }
