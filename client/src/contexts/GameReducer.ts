@@ -101,6 +101,10 @@ const reducer = (state = initialState, action: GameAction): GameState => {
             return;
           }
 
+          // The current king should not be in danger now. This line will reset 'check'
+          checkAttacks(draft);
+
+          // Swap turn and check if the opponent king is under attack
           swapTurn(draft);
           checkAttacks(draft);
           return;
