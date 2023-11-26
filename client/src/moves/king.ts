@@ -1,10 +1,10 @@
 import { DIRECTIONS } from "../constants/directions";
 import { Board, Color, SquarePos } from "../types";
 import { onBoard, posString } from "../utils";
+import { nearOpponentKing } from "../utils/king";
 
 // TODO:
 // Check
-// Don't move near other king
 // Castling
 
 const getKingMoves = (
@@ -29,6 +29,11 @@ const getKingMoves = (
     const square = board[destRow][destCol];
     const [pieceColor] = square;
     if (pieceColor === turn) {
+      continue;
+    }
+
+    // Don't move near opponent king
+    if (nearOpponentKing(board, destRow, destCol, turn)) {
       continue;
     }
 
