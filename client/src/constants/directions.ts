@@ -29,7 +29,9 @@ const STRAIGHT: [number, number][] = [
 // diagonal, horizontal, vertical
 const STAR = [...DIAGONAL, ...STRAIGHT];
 
-const DIRECTIONS = {
+const DIRECTIONS: {
+  [key: string]: [number, number][];
+} = {
   LSHAPE,
   DIAGONAL,
   STRAIGHT,
