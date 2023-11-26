@@ -19,6 +19,13 @@ type EnPassantInfo = {
   pieces: SquarePos[];
 };
 
+type King = "wk" | "bk";
+
+type CheckInfo = {
+  king: King | null;
+  attacks: SquarePos[];
+};
+
 export type {
   Color,
   PieceSymbol,
@@ -29,4 +36,6 @@ export type {
   Board,
   SquarePos,
   EnPassantInfo,
+  King,
+  CheckInfo,
 };

@@ -1,8 +1,16 @@
 import { produce } from "immer";
 
 import { WHITE } from "../constants";
-import { Board, Color, EnPassantInfo, PromotePiece, SquarePos } from "../types";
+import {
+  Board,
+  CheckInfo,
+  Color,
+  EnPassantInfo,
+  PromotePiece,
+  SquarePos,
+} from "../types";
 import { getMoves, makeMove, updateBoard } from "../moves";
+import { getAttackedKing } from "../attacks";
 import { getOpponentColor, getPiece, posString } from "../utils";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
 
@@ -28,9 +36,11 @@ type GameState = {
   squaresToHighlight: SquarePos[];
   needPromotion: boolean;
   enPassant: EnPassantInfo;
+  check: CheckInfo;
 };
 
 const defaultEnPassantInfo: EnPassantInfo = { move: "", pieces: [] };
+const defaultCheckInfo: CheckInfo = { king: null, attacks: [] };
 
 const initialState: GameState = {
   turn: WHITE,
@@ -41,12 +51,21 @@ const initialState: GameState = {
   squaresToHighlight: [],
   needPromotion: false,
   enPassant: defaultEnPassantInfo,
+  check: defaultCheckInfo,
 };
 
 const clearSelection = (draft: GameState) => {
   draft.currentSquare = "";
   draft.moves = [];
   draft.squaresToHighlight = [];
+};
+
+const checkAttacks = (draft: GameState) => {
+  const { board, turn } = draft;
+  const attackedKing = getAttackedKing(board, turn);
+  if (attackedKing) {
+    draft.check.king = attackedKing;
+  }
 };
 
 const swapTurn = (draft: GameState) => {
@@ -86,6 +105,7 @@ const reducer = (state = initialState, action: GameAction): GameState => {
           }
 
           swapTurn(draft);
+          checkAttacks(draft);
           return;
         }
 
@@ -138,6 +158,7 @@ const reducer = (state = initialState, action: GameAction): GameState => {
         draft.board = newBoard;
         draft.needPromotion = false;
         swapTurn(draft);
+        checkAttacks(draft);
       });
 
     default:
