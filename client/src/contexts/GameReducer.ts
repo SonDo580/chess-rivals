@@ -62,10 +62,7 @@ const clearSelection = (draft: GameState) => {
 
 const checkAttacks = (draft: GameState) => {
   const { board, turn } = draft;
-  const attackedKing = getAttackedKing(board, turn);
-  if (attackedKing) {
-    draft.check.king = attackedKing;
-  }
+  draft.check.king = getAttackedKing(board, turn);
 };
 
 const swapTurn = (draft: GameState) => {
