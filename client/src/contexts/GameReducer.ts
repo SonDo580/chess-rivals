@@ -149,7 +149,7 @@ const reducer = (state = initialState, action: GameAction): GameState => {
         const { piece } = action;
         const { board, lastMove, turn } = draft;
 
-        const promotedPiece = getPiece(turn, piece) as PromotePiece;
+        const promotedPiece = getPiece(turn, piece);
         const newBoard = updateBoard(
           board,
           lastMove as SquarePos,

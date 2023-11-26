@@ -17,7 +17,7 @@ const isAttackedByKnight = (
       continue;
     }
 
-    if (board[currentRow][currentCol] === `${opponentColor}${KNIGHT}`) {
+    if (board[currentRow][currentCol] === getPiece(opponentColor, KNIGHT)) {
       return true;
     }
   }

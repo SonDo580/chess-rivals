@@ -1,4 +1,4 @@
-import { PieceSymbol } from "../types";
+import { PromotePieceSymbol } from "../types";
 
 enum ACTIONS {
   SELECT_SQUARE = "SELECT_SQUARE",
@@ -13,7 +13,7 @@ type SelectSquareAction = {
 
 type PromoteAction = {
   type: ACTIONS.PROMOTE;
-  piece: PieceSymbol;
+  piece: PromotePieceSymbol;
 };
 
 type GameAction = SelectSquareAction | PromoteAction;

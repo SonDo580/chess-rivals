@@ -9,7 +9,7 @@ import { getBishopRookQueenAttacks, isAttackedByBishopRookQueen } from "./brq";
 
 // Get the king that is being attacked
 const getAttackedKing = (board: Board, turn: Color): King | null => {
-  const currentKing = getPiece(turn, KING) as King;
+  const currentKing = getPiece(turn, KING);
   const kingPos = getKingPos(board, turn) as SquarePos;
   const [row, col] = posParse(kingPos);
   const opponentColor = getOpponentColor(turn);

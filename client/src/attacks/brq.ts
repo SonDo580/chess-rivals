@@ -1,7 +1,7 @@
 import { BISHOP, QUEEN, ROOK } from "../constants";
 import { DIRECTIONS } from "../constants/directions";
-import { Board, Color, Piece, SquarePos } from "../types";
-import { getPiece, onBoard, posString } from "../utils";
+import { Board, Color, SquarePos } from "../types";
+import { checkInclude, getPiece, onBoard, posString } from "../utils";
 
 // Check for bishop, rook or queen attacks
 const isAttackedByBishopRookQueen = (
@@ -43,7 +43,7 @@ const isAttackedByBishopRookQueen = (
         }
 
         // Add postion if the piece is the needed piece
-        if (pieces.includes(board[currentRow][currentCol] as Piece)) {
+        if (checkInclude(pieces, board[currentRow][currentCol])) {
           return true;
         }
         break;
@@ -94,7 +94,7 @@ const getBishopRookQueenAttacks = (
           continue;
         }
 
-        if (pieces.includes(board[currentRow][currentCol] as Piece)) {
+        if (checkInclude(pieces, board[currentRow][currentCol])) {
           attacks.push(posString(currentRow, currentCol));
         }
         break;

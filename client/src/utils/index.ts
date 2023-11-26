@@ -1,5 +1,5 @@
 import { BLACK, WHITE } from "../constants";
-import { Color, Piece, PieceSymbol, SquarePos } from "../types";
+import { Color, PieceSymbol, PromotePieceSymbol, SquarePos } from "../types";
 
 const validRow = (row: number) => row >= 0 && row < 8;
 
@@ -26,8 +26,21 @@ const isLastMove = (lastMove: SquarePos | "", row: number, col: number) =>
 const getOpponentColor = (turn: Color): Color =>
   turn === WHITE ? BLACK : WHITE;
 
-const getPiece = (color: Color, piece: PieceSymbol): Piece =>
-  `${color}${piece}`;
+type GetPieceReturnType<T> = T extends PromotePieceSymbol
+  ? `${Color}${T}`
+  : T extends PieceSymbol
+  ? `${Color}${T}`
+  : never;
+
+const getPiece = <T extends PieceSymbol | PromotePieceSymbol>(
+  color: Color,
+  piece: T
+): GetPieceReturnType<T> => {
+  return `${color}${piece}` as GetPieceReturnType<T>;
+};
+
+const checkInclude = <T extends K, K>(arr: T[], val: K) =>
+  arr.some((item) => item === val);
 
 export {
   onBoard,
@@ -39,4 +52,5 @@ export {
   isLastMove,
   getOpponentColor,
   getPiece,
+  checkInclude,
 };
