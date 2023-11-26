@@ -3,9 +3,6 @@ import { DIRECTIONS } from "../constants/directions";
 import { Board, Color, PieceSymbol, SquarePos } from "../types";
 import { onBoard, posString } from "../utils";
 
-// TODO:
-// Check
-
 const BRQ_DIRECTIONS: {
   [piece: string]: [number, number][];
 } = {

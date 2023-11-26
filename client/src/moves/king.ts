@@ -4,7 +4,6 @@ import { onBoard, posString } from "../utils";
 import { nearOpponentKing } from "../utils/king";
 
 // TODO:
-// Check
 // Castling
 
 const getKingMoves = (

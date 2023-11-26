@@ -2,9 +2,6 @@ import { WHITE } from "../constants";
 import { Board, Color, EnPassantInfo, SquarePos } from "../types";
 import { posString, validCol, validRow } from "../utils";
 
-// TODO:
-// Check
-
 const getPawnMoves = (
   board: Board,
   row: number,

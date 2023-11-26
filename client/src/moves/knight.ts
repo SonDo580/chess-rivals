@@ -2,8 +2,6 @@ import { DIRECTIONS } from "../constants/directions";
 import { Board, Color, SquarePos } from "../types";
 import { onBoard, posString } from "../utils";
 
-// TODO: Check
-
 const getKnightMoves = (
   board: Board,
   row: number,
