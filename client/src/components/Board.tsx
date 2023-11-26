@@ -10,7 +10,7 @@ import Promote from "./Promote";
 
 function Board() {
   const [state, dispatch] = useContext(GameContext);
-  const { board, lastMove, squaresToHighlight, needPromotion } = state;
+  const { board, lastMove, squaresToHighlight, needPromotion, check } = state;
 
   const handlePromote = (piece: PromotePieceSymbol) => {
     dispatch({
@@ -42,6 +42,7 @@ function Board() {
                 col={j}
                 highlight={shouldHighlight(squaresToHighlight, i, j)}
                 lastMove={isLastMove(lastMove, i, j)}
+                checked={square === check.king}
                 selectSquare={selectSquare}
               />
             ))}

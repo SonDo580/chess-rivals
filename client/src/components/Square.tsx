@@ -7,6 +7,7 @@ type Props = {
   col: number;
   highlight: boolean;
   lastMove: boolean;
+  checked: boolean;
   selectSquare: (row: number, col: number) => void;
 };
 
@@ -16,6 +17,7 @@ function Square({
   col,
   highlight,
   lastMove,
+  checked,
   selectSquare,
 }: Props) {
   const onClick = () => {
@@ -24,7 +26,7 @@ function Square({
 
   return (
     <div
-      className={getSquareClass(row, col, highlight, lastMove)}
+      className={getSquareClass(row, col, highlight, lastMove, checked)}
       onClick={onClick}
     >
       {getSquareContent(square)}

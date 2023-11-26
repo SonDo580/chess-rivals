@@ -8,20 +8,26 @@ const getSquareBgClass = (row: number, col: number) => {
   return col % 2 === 0 ? "bold" : "light";
 };
 
-const getHighlightClass = (highlight: boolean, lastMove: boolean) => {
+const getHighlightClass = (
+  highlight: boolean,
+  lastMove: boolean,
+  checked: boolean
+) => {
   const highlightClass = highlight ? "highlight" : "";
   const lastMoveClass = lastMove ? "last" : "";
-  return highlightClass || lastMoveClass;
+  const checkedClass = checked ? "checked" : "";
+  return checkedClass || highlightClass || lastMoveClass;
 };
 
 const getSquareClass = (
   row: number,
   col: number,
   highlight: boolean,
-  lastMove: boolean
+  lastMove: boolean,
+  checked: boolean
 ) => {
   const bgClass = getSquareBgClass(row, col);
-  const highlightClass = getHighlightClass(highlight, lastMove);
+  const highlightClass = getHighlightClass(highlight, lastMove, checked);
   return `square ${bgClass} ${highlightClass}`;
 };
 

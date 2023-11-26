@@ -40,6 +40,11 @@ body {
     background-color: #fff;
     box-shadow: 0 0 10px 0 inset yellowgreen;
   }
+
+  &.checked {
+    background-color: #fff;
+    box-shadow: 0 0 10px 0 inset darkgoldenrod;
+  }
 }
 
 .overlay {
