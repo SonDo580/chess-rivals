@@ -32,18 +32,18 @@ body {
   }
 
   &.highlight {
-    background-color: #fff;
+    background-color: white;
     box-shadow: 0 0 10px 0 inset cornflowerblue;
   }
 
   &.last {
-    background-color: #fff;
+    background-color: white;
     box-shadow: 0 0 10px 0 inset yellowgreen;
   }
 
   &.checked {
-    background-color: #fff;
-    box-shadow: 0 0 10px 0 inset darkgoldenrod;
+    background-color: white;
+    box-shadow: 0 0 10px 5px inset darkgoldenrod;
   }
 }
 
