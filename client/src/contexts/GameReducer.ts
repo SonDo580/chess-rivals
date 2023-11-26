@@ -1,9 +1,9 @@
 import { produce } from "immer";
 
-import { BLACK, WHITE } from "../constants";
+import { WHITE } from "../constants";
 import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
 import { getMoves, makeMove, updateBoard } from "../moves";
-import { posString } from "../utils";
+import { getOpponentColor, posString } from "../utils";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
 
 import { ACTIONS, GameAction } from "./GameActions";
@@ -50,7 +50,7 @@ const clearSelection = (draft: GameState) => {
 };
 
 const swapTurn = (draft: GameState) => {
-  draft.turn = draft.turn === WHITE ? BLACK : WHITE;
+  draft.turn = getOpponentColor(draft.turn);
 };
 
 const reducer = (state = initialState, action: GameAction): GameState => {
