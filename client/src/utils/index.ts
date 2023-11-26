@@ -1,5 +1,5 @@
 import { BLACK, WHITE } from "../constants";
-import { Color, SquarePos } from "../types";
+import { Color, Piece, PieceSymbol, SquarePos } from "../types";
 
 const validRow = (row: number) => row >= 0 && row < 8;
 
@@ -23,7 +23,11 @@ const shouldHighlight = (
 const isLastMove = (lastMove: SquarePos | "", row: number, col: number) =>
   lastMove === posString(row, col);
 
-const getOpponentColor = (turn: Color) => (turn === WHITE ? BLACK : WHITE);
+const getOpponentColor = (turn: Color): Color =>
+  turn === WHITE ? BLACK : WHITE;
+
+const getPiece = (color: Color, piece: PieceSymbol): Piece =>
+  `${color}${piece}`;
 
 export {
   onBoard,
@@ -34,4 +38,5 @@ export {
   shouldHighlight,
   isLastMove,
   getOpponentColor,
+  getPiece,
 };

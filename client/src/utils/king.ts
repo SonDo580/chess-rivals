@@ -1,6 +1,7 @@
-import { getOpponentColor, onBoard } from ".";
-import { DIRECTIONS } from "../constants/directions";
 import { Board, Color } from "../types";
+import { DIRECTIONS } from "../constants/directions";
+import { KING } from "../constants";
+import { getOpponentColor, getPiece, onBoard, posString } from ".";
 
 // Check if a square is next to the opponent king
 const nearOpponentKing = (
@@ -10,7 +11,7 @@ const nearOpponentKing = (
   turn: Color
 ) => {
   const opponentColor = getOpponentColor(turn);
-  const opponentKing = `${opponentColor}k`;
+  const opponentKing = getPiece(opponentColor, KING);
 
   for (const direction of DIRECTIONS.STAR) {
     const currentRow = row + direction[0];
@@ -27,4 +28,15 @@ const nearOpponentKing = (
   return false;
 };
 
-export { nearOpponentKing };
+// Get the king position
+const getKingPos = (board: Board, turn: Color) => {
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      if (board[i][j] === getPiece(turn, KING)) {
+        return posString(i, j);
+      }
+    }
+  }
+};
+
+export { nearOpponentKing, getKingPos };
