@@ -1,8 +1,8 @@
 import { BISHOP, KNIGHT, QUEEN, ROOK } from "../constants";
-import { PieceSymbol } from "../types";
+import { PromotePieceSymbol } from "../types";
 
 type Props = {
-  handlePromote: (piece: PieceSymbol) => void;
+  handlePromote: (piece: PromotePieceSymbol) => void;
 };
 
 function Promote({ handlePromote }: Props) {

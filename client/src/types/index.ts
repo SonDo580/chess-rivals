@@ -2,7 +2,11 @@ type Color = "w" | "b";
 
 type PieceSymbol = "p" | "n" | "b" | "r" | "q" | "k";
 
+type PromotePieceSymbol = Exclude<PieceSymbol, "k" | "p">;
+
 type Piece = `${Color}${PieceSymbol}`;
+
+type PromotePiece = `${Color}${PromotePieceSymbol}`;
 
 type Square = Piece | "";
 
@@ -18,7 +22,9 @@ type EnPassantInfo = {
 export type {
   Color,
   PieceSymbol,
+  PromotePieceSymbol,
   Piece,
+  PromotePiece,
   Square,
   Board,
   SquarePos,

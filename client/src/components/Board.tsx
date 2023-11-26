@@ -1,6 +1,6 @@
 import { Fragment, useContext } from "react";
 
-import { PieceSymbol } from "../types";
+import { PromotePieceSymbol } from "../types";
 import { isLastMove, shouldHighlight } from "../utils";
 import { GameContext } from "../contexts/GameContext";
 import { ACTIONS } from "../contexts/GameActions";
@@ -12,7 +12,7 @@ function Board() {
   const [state, dispatch] = useContext(GameContext);
   const { board, lastMove, squaresToHighlight, needPromotion } = state;
 
-  const handlePromote = (piece: PieceSymbol) => {
+  const handlePromote = (piece: PromotePieceSymbol) => {
     dispatch({
       type: ACTIONS.PROMOTE,
       piece,

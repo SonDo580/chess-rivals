@@ -1,7 +1,7 @@
 import { produce } from "immer";
 
 import { WHITE } from "../constants";
-import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
+import { Board, Color, EnPassantInfo, PromotePiece, SquarePos } from "../types";
 import { getMoves, makeMove, updateBoard } from "../moves";
 import { getOpponentColor, getPiece, posString } from "../utils";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
@@ -128,7 +128,7 @@ const reducer = (state = initialState, action: GameAction): GameState => {
         const { piece } = action;
         const { board, lastMove, turn } = draft;
 
-        const promotedPiece = getPiece(turn, piece);
+        const promotedPiece = getPiece(turn, piece) as PromotePiece;
         const newBoard = updateBoard(
           board,
           lastMove as SquarePos,
