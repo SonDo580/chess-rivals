@@ -116,7 +116,7 @@ const reducer = (state = initialState, action: GameAction): GameState => {
           // Skip if castling right has been removed for both side
           if (castlingRight.q || castlingRight.k) {
             draft.castlingRights[turn] = updateCastlingRight(
-              newBoard,
+              board,
               currentSquare,
               castlingRight
             );

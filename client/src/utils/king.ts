@@ -11,14 +11,7 @@ import {
 import { DIRECTIONS } from "../constants/directions";
 import { KING, ROOK, WHITE } from "../constants";
 import { getAttackedKing } from "../attacks";
-import {
-  getOpponentColor,
-  getPiece,
-  onBoard,
-  posParse,
-  posString,
-  validCol,
-} from ".";
+import { getOpponentColor, getPiece, onBoard, posParse, posString } from ".";
 import { makeMove } from "../moves";
 
 // Check if a square is next to the opponent king
