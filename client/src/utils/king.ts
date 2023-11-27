@@ -11,7 +11,14 @@ import {
 import { DIRECTIONS } from "../constants/directions";
 import { KING, ROOK, WHITE } from "../constants";
 import { getAttackedKing } from "../attacks";
-import { getOpponentColor, getPiece, onBoard, posParse, posString } from ".";
+import {
+  getOpponentColor,
+  getPiece,
+  onBoard,
+  posParse,
+  posString,
+  validCol,
+} from ".";
 import { makeMove } from "../moves";
 
 // Check if a square is next to the opponent king
@@ -98,10 +105,17 @@ const castlingPossible = (
   }
 
   const direction = side === "q" ? -1 : 1;
+  const edgeCol = side === "q" ? 0 : 7;
   const fromPos = posString(row, col);
 
   // Check if there are pieces between king and rook
-  // TODO
+  let currentCol = col + direction;
+  while (currentCol !== edgeCol) {
+    if (board[row][currentCol]) {
+      return false;
+    }
+    currentCol += direction;
+  }
 
   for (const colOffset of [direction, direction * 2]) {
     const destCol = col + colOffset;
