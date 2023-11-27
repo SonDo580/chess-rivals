@@ -26,6 +26,16 @@ type CheckInfo = {
   attacks: SquarePos[];
 };
 
+type CastlingSide = "q" | "k";
+
+type CastlingRight = {
+  [K in CastlingSide]: boolean;
+};
+
+type CastlingRights = {
+  [K in Color]: CastlingRight;
+};
+
 export type {
   Color,
   PieceSymbol,
@@ -38,4 +48,7 @@ export type {
   EnPassantInfo,
   King,
   CheckInfo,
+  CastlingSide,
+  CastlingRight,
+  CastlingRights,
 };

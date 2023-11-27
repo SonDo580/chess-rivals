@@ -1,14 +1,22 @@
 import { produce } from "immer";
 
 import { BISHOP, KING, KNIGHT, PAWN, QUEEN, ROOK } from "../constants";
-import { Board, Color, EnPassantInfo, Piece, SquarePos } from "../types";
+import {
+  Board,
+  CastlingRight,
+  Color,
+  EnPassantInfo,
+  Piece,
+  PieceSymbol,
+  SquarePos,
+} from "../types";
 import { posParse, posString } from "../utils";
+import { getAttackedKing } from "../attacks";
 
 import { getPawnMoves } from "./pawn";
 import { getKnightMoves } from "./knight";
 import { getBishopRookQueenMoves } from "./brq";
 import { getKingMoves } from "./king";
-import { getAttackedKing } from "../attacks";
 
 // Get all valid moves for a piece
 const getMoves = (
@@ -16,7 +24,8 @@ const getMoves = (
   row: number,
   col: number,
   turn: Color,
-  enPassant: EnPassantInfo
+  enPassant: EnPassantInfo,
+  castlingRight: CastlingRight
 ): SquarePos[] => {
   // Empty square
   const square = board[row][col];
@@ -44,7 +53,7 @@ const getMoves = (
       moves = getBishopRookQueenMoves(board, row, col, turn, pieceSymbol);
       break;
     case KING:
-      moves = getKingMoves(board, row, col, turn);
+      moves = getKingMoves(board, row, col, turn, castlingRight);
       break;
     default:
       return [];
@@ -55,6 +64,8 @@ const getMoves = (
   const fromPos = posString(row, col);
 
   for (const toPos of moves) {
+    // Don't need to pass 'castlingRight' here
+    // Castling moves are examined in 'getKingMoves'
     const nextBoard = makeMove(board, fromPos, toPos, enPassant);
     if (!getAttackedKing(nextBoard, turn)) {
       validMoves.push(toPos);
@@ -69,19 +80,36 @@ const makeMove = (
   board: Board,
   from: SquarePos,
   to: SquarePos,
-  enPassant: EnPassantInfo
+  enPassant?: EnPassantInfo,
+  castlingRight?: CastlingRight
 ) => {
   const [fromRow, fromCol] = posParse(from);
   const [toRow, toCol] = posParse(to);
   const piece = board[fromRow][fromCol] as Piece;
+  const pieceSymbol = piece[1] as PieceSymbol;
 
   return produce(board, (draft) => {
     draft[toRow][toCol] = piece;
     draft[fromRow][fromCol] = "";
 
     // Remove the pawn captured by en passant
-    if (enPassant.pieces.includes(from) && enPassant.move === to) {
+    if (enPassant && enPassant.pieces.includes(from) && enPassant.move === to) {
       draft[fromRow][toCol] = "";
+    }
+
+    // Check for castling move
+    // If the king moved 2 columns, this must be castling
+    // So we also need to update position for the rook
+    if (pieceSymbol === KING && castlingRight) {
+      if (castlingRight.k && toCol - fromCol === 2) {
+        // King side
+        draft[fromRow][toCol - 1] = draft[fromRow][7];
+        draft[fromRow][7] = "";
+      } else if (castlingRight.q && fromCol - toCol === 2) {
+        // Queen side
+        draft[fromRow][toCol + 1] = draft[fromRow][0];
+        draft[fromRow][0] = "";
+      }
     }
   });
 };

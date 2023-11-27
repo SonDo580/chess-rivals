@@ -1,12 +1,12 @@
 import { produce } from "immer";
 
-import { WHITE } from "../constants";
+import { BLACK, WHITE } from "../constants";
 import {
   Board,
+  CastlingRights,
   CheckInfo,
   Color,
   EnPassantInfo,
-  PromotePiece,
   SquarePos,
 } from "../types";
 import { getMoves, makeMove, updateBoard } from "../moves";
@@ -15,6 +15,7 @@ import { getOpponentColor, getPiece, posString } from "../utils";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
 
 import { ACTIONS, GameAction } from "./GameActions";
+import { updateCastlingRight } from "../utils/king";
 
 const initialBoard: Board = [
   ["br", "bn", "bb", "bq", "bk", "bb", "bn", "br"],
@@ -37,10 +38,22 @@ type GameState = {
   needPromotion: boolean;
   enPassant: EnPassantInfo;
   check: CheckInfo;
+  castlingRights: CastlingRights;
 };
 
 const defaultEnPassantInfo: EnPassantInfo = { move: "", pieces: [] };
 const defaultCheckInfo: CheckInfo = { king: null, attacks: [] };
+
+const initialCastlingRights: CastlingRights = {
+  [BLACK]: {
+    q: true,
+    k: true,
+  },
+  [WHITE]: {
+    q: true,
+    k: true,
+  },
+};
 
 const initialState: GameState = {
   turn: WHITE,
@@ -52,6 +65,7 @@ const initialState: GameState = {
   needPromotion: false,
   enPassant: defaultEnPassantInfo,
   check: defaultCheckInfo,
+  castlingRights: initialCastlingRights,
 };
 
 const clearSelection = (draft: GameState) => {
@@ -77,16 +91,36 @@ const reducer = (state = initialState, action: GameAction): GameState => {
       return produce(state, (draft) => {
         const { row, col } = action;
         const { turn, board, currentSquare, moves, enPassant } = draft;
+        const castlingRight = draft.castlingRights[turn];
 
         // Get position string for selected square
         const pos = posString(row, col);
 
         // Make a valid move
         if (currentSquare && moves.includes(pos)) {
-          const newBoard = makeMove(board, currentSquare, pos, enPassant);
+          const newBoard = makeMove(
+            board,
+            currentSquare,
+            pos,
+            enPassant,
+            castlingRight
+          );
           draft.board = newBoard;
           draft.lastMove = pos;
           clearSelection(draft);
+
+          // The current king should not be in danger now. Reset 'check'
+          checkAttacks(draft);
+
+          // Update castling right for current player
+          // Skip if castling right has been removed for both side
+          if (castlingRight.q || castlingRight.k) {
+            draft.castlingRights[turn] = updateCastlingRight(
+              newBoard,
+              currentSquare,
+              castlingRight
+            );
+          }
 
           // Check for en passant. Reset after making a move
           if (enPassant.pieces.length > 0) {
@@ -100,9 +134,6 @@ const reducer = (state = initialState, action: GameAction): GameState => {
             draft.needPromotion = true;
             return;
           }
-
-          // The current king should not be in danger now. This line will reset 'check'
-          checkAttacks(draft);
 
           // Swap turn and check if the opponent king is under attack
           swapTurn(draft);
@@ -137,7 +168,14 @@ const reducer = (state = initialState, action: GameAction): GameState => {
         draft.currentSquare = pos;
 
         // Get valid moves for the piece
-        const validMoves = getMoves(board, row, col, turn, enPassant);
+        const validMoves = getMoves(
+          board,
+          row,
+          col,
+          turn,
+          enPassant,
+          draft.castlingRights[turn]
+        );
         draft.moves = validMoves;
 
         // Highlight current square and valid moves
@@ -158,6 +196,8 @@ const reducer = (state = initialState, action: GameAction): GameState => {
 
         draft.board = newBoard;
         draft.needPromotion = false;
+
+        // Swap turn and check if the opponent king is under attack
         swapTurn(draft);
         checkAttacks(draft);
       });

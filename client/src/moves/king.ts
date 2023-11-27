@@ -1,16 +1,14 @@
 import { DIRECTIONS } from "../constants/directions";
-import { Board, Color, SquarePos } from "../types";
+import { Board, CastlingRight, Color, SquarePos } from "../types";
 import { onBoard, posString } from "../utils";
-import { nearOpponentKing } from "../utils/king";
-
-// TODO:
-// Castling
+import { castlingPossible, nearOpponentKing } from "../utils/king";
 
 const getKingMoves = (
   board: Board,
   row: number,
   col: number,
-  turn: Color
+  turn: Color,
+  castlingRight: CastlingRight
 ): SquarePos[] => {
   const moves: SquarePos[] = [];
 
@@ -38,6 +36,16 @@ const getKingMoves = (
 
     // Add the move
     moves.push(posString(destRow, destCol));
+  }
+
+  // Add castling moves
+  // King side
+  if (castlingRight.k && castlingPossible(board, row, col, turn, "k")) {
+    moves.push(posString(row, col + 2));
+  }
+  // Queen side
+  if (castlingRight.q && castlingPossible(board, row, col, turn, "q")) {
+    moves.push(posString(row, col - 2));
   }
 
   return moves;
