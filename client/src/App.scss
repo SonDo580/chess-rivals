@@ -21,7 +21,6 @@ body {
 
   cursor: pointer;
   user-select: none;
-  font-size: 3rem;
 
   &.light {
     background-color: lightcyan;
@@ -89,11 +88,5 @@ button {
 
   &:hover {
     background-color: slategray;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .square {
-    font-size: 2rem;
   }
 }
