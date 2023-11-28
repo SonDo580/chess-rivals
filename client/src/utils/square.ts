@@ -1,6 +1,3 @@
-import { PIECE } from "../pieces";
-import { Color, PieceSymbol, Square } from "../types";
-
 const getSquareBgClass = (row: number, col: number) => {
   if (row % 2 === 0) {
     return col % 2 === 0 ? "light" : "bold";
@@ -31,12 +28,4 @@ const getSquareClass = (
   return `square ${bgClass} ${highlightClass}`;
 };
 
-const getSquareContent = (square: Square) => {
-  if (!square) {
-    return null;
-  }
-  const [pieceColor, pieceSymbol] = square;
-  return PIECE[pieceColor as Color][pieceSymbol as PieceSymbol]();
-};
-
-export { getSquareClass, getSquareContent };
+export { getSquareClass };

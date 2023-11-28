@@ -1,5 +1,6 @@
 import { Square as SquareType } from "../types";
-import { getSquareClass, getSquareContent } from "../utils/square";
+import { getSquareClass } from "../utils/square";
+import Piece from "./Piece";
 
 type Props = {
   square: SquareType;
@@ -29,7 +30,7 @@ function Square({
       className={getSquareClass(row, col, highlight, lastMove, checked)}
       onClick={onClick}
     >
-      {getSquareContent(square)}
+      <Piece square={square} />
     </div>
   );
 }
