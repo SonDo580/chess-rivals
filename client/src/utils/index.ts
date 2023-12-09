@@ -1,5 +1,12 @@
-import { BLACK, WHITE } from "../constants";
-import { Color, PieceSymbol, PromotePieceSymbol, SquarePos } from "../types";
+import { BLACK, PAWN, WHITE } from "../constants";
+import {
+  Board,
+  Color,
+  Piece,
+  PieceSymbol,
+  PromotePieceSymbol,
+  SquarePos,
+} from "../types";
 
 const validRow = (row: number) => row >= 0 && row < 8;
 
@@ -42,6 +49,16 @@ const getPiece = <T extends PieceSymbol | PromotePieceSymbol>(
 const checkInclude = <T extends K, K>(arr: T[], val: K) =>
   arr.some((item) => item === val);
 
+const shouldReset50Move = (board: Board, from: SquarePos, to: SquarePos) => {
+  const [fromRow, fromCol] = posParse(from);
+  const [toRow, toCol] = posParse(to);
+
+  // Check for pawn move or capturing
+  const pieceSymbol = board[fromRow][fromCol][1];
+  const toSquare = board[toRow][toCol];
+  return pieceSymbol === PAWN || toSquare !== "";
+};
+
 export {
   onBoard,
   validRow,
@@ -53,4 +70,5 @@ export {
   getOpponentColor,
   getPiece,
   checkInclude,
+  shouldReset50Move,
 };

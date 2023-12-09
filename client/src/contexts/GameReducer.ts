@@ -1,6 +1,6 @@
 import { produce } from "immer";
 
-import { BLACK, CHECKMATE, STALEMATE, WHITE } from "../constants";
+import { BLACK, CHECKMATE, DRAW, STALEMATE, WHITE } from "../constants";
 import {
   Board,
   CastlingRights,
@@ -12,7 +12,12 @@ import {
 } from "../types";
 import { checkMove, getMoves, makeMove, updateBoard } from "../moves";
 import { getAttackedKing } from "../attacks";
-import { getOpponentColor, getPiece, posString } from "../utils";
+import {
+  getOpponentColor,
+  getPiece,
+  posString,
+  shouldReset50Move,
+} from "../utils";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
 import { updateCastlingRight } from "../utils/king";
 
@@ -40,6 +45,7 @@ type GameState = {
   enPassant: EnPassantInfo;
   check: CheckInfo;
   castlingRights: CastlingRights;
+  fiftyMoveCount: number;
   result: GameResult;
 };
 
@@ -68,6 +74,7 @@ const initialState: GameState = {
   enPassant: defaultEnPassantInfo,
   check: defaultCheckInfo,
   castlingRights: initialCastlingRights,
+  fiftyMoveCount: 0,
   result: {},
 };
 
@@ -87,10 +94,13 @@ const swapTurn = (draft: GameState) => {
 };
 
 const checkEndGame = (draft: GameState) => {
-  const { board, turn, enPassant, castlingRights } = draft;
+  const { board, turn, enPassant, castlingRights, fiftyMoveCount } = draft;
   const canMove = checkMove(board, turn, enPassant, castlingRights[turn]);
   if (canMove) {
-    // TODO: check 50 moves rule
+    // In 50-move rule: 1 move = 2 turn
+    if (fiftyMoveCount === 100) {
+      draft.result.kind = DRAW;
+    }
     return;
   }
 
@@ -153,6 +163,13 @@ const reducer = (state = initialState, action: GameAction): GameState => {
           if (needPromotion(newBoard, pos, turn)) {
             draft.needPromotion = true;
             return;
+          }
+
+          // Check for pawn move and capturing (for 50-move rule)
+          if (shouldReset50Move(board, currentSquare, pos)) {
+            draft.fiftyMoveCount = 0;
+          } else {
+            draft.fiftyMoveCount++;
           }
 
           // Swap turn and check if the opponent king is under attack
