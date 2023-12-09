@@ -1,21 +1,22 @@
 import { produce } from "immer";
 
-import { BLACK, WHITE } from "../constants";
+import { BLACK, CHECKMATE, STALEMATE, WHITE } from "../constants";
 import {
   Board,
   CastlingRights,
   CheckInfo,
   Color,
   EnPassantInfo,
+  GameResult,
   SquarePos,
 } from "../types";
-import { getMoves, makeMove, updateBoard } from "../moves";
+import { checkMove, getMoves, makeMove, updateBoard } from "../moves";
 import { getAttackedKing } from "../attacks";
 import { getOpponentColor, getPiece, posString } from "../utils";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
+import { updateCastlingRight } from "../utils/king";
 
 import { ACTIONS, GameAction } from "./GameActions";
-import { updateCastlingRight } from "../utils/king";
 
 const initialBoard: Board = [
   ["br", "bn", "bb", "bq", "bk", "bb", "bn", "br"],
@@ -39,6 +40,7 @@ type GameState = {
   enPassant: EnPassantInfo;
   check: CheckInfo;
   castlingRights: CastlingRights;
+  result: GameResult;
 };
 
 const defaultEnPassantInfo: EnPassantInfo = { move: "", pieces: [] };
@@ -66,6 +68,7 @@ const initialState: GameState = {
   enPassant: defaultEnPassantInfo,
   check: defaultCheckInfo,
   castlingRights: initialCastlingRights,
+  result: {},
 };
 
 const clearSelection = (draft: GameState) => {
@@ -81,6 +84,23 @@ const checkAttacks = (draft: GameState) => {
 
 const swapTurn = (draft: GameState) => {
   draft.turn = getOpponentColor(draft.turn);
+};
+
+const checkEndGame = (draft: GameState) => {
+  const { board, turn, enPassant, castlingRights } = draft;
+  const canMove = checkMove(board, turn, enPassant, castlingRights[turn]);
+  if (canMove) {
+    // TODO: check 50 moves rule
+    return;
+  }
+
+  // No moves available
+  if (!draft.check.king) {
+    draft.result.kind = STALEMATE;
+  } else {
+    draft.result.kind = CHECKMATE;
+    draft.result.winner = getOpponentColor(turn);
+  }
 };
 
 const reducer = (state = initialState, action: GameAction): GameState => {
@@ -138,6 +158,9 @@ const reducer = (state = initialState, action: GameAction): GameState => {
           // Swap turn and check if the opponent king is under attack
           swapTurn(draft);
           checkAttacks(draft);
+
+          // Check for end game
+          checkEndGame(draft);
           return;
         }
 
@@ -200,6 +223,9 @@ const reducer = (state = initialState, action: GameAction): GameState => {
         // Swap turn and check if the opponent king is under attack
         swapTurn(draft);
         checkAttacks(draft);
+
+        // Check for end game
+        checkEndGame(draft);
       });
 
     default:

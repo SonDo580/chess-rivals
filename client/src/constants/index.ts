@@ -10,4 +10,21 @@ const ROOK = "r";
 const QUEEN = "q";
 const KING = "k";
 
-export { WHITE, BLACK, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING };
+// Game Result
+const CHECKMATE = "Checkmate";
+const STALEMATE = "Stalemate";
+const DRAW = "Draw";
+
+export {
+  WHITE,
+  BLACK,
+  PAWN,
+  KNIGHT,
+  BISHOP,
+  ROOK,
+  QUEEN,
+  KING,
+  CHECKMATE,
+  STALEMATE,
+  DRAW,
+};

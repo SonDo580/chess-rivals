@@ -122,4 +122,31 @@ const updateBoard = (board: Board, pos: SquarePos, piece: Piece) => {
   });
 };
 
-export { getMoves, makeMove, updateBoard };
+// Check if there are available moves for current turn
+const checkMove = (
+  board: Board,
+  turn: Color,
+  enPassant: EnPassantInfo,
+  castlingRight: CastlingRight
+) => {
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      const square = board[i][j];
+      if (!square) {
+        continue;
+      }
+
+      if (square[0] !== turn) {
+        continue;
+      }
+
+      const moves = getMoves(board, i, j, turn, enPassant, castlingRight);
+      if (moves.length > 0) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+export { getMoves, makeMove, updateBoard, checkMove };

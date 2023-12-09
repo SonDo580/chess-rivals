@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 
 import { PromotePieceSymbol } from "../types";
 import { isLastMove, shouldHighlight } from "../utils";
@@ -7,10 +7,30 @@ import { ACTIONS } from "../contexts/GameActions";
 
 import Square from "./Square";
 import Promote from "./Promote";
+import { BLACK, CHECKMATE } from "../constants";
 
 function Board() {
   const [state, dispatch] = useContext(GameContext);
-  const { board, lastMove, squaresToHighlight, needPromotion, check } = state;
+  const {
+    board,
+    lastMove,
+    squaresToHighlight,
+    needPromotion,
+    check,
+    result: { kind: resultKind, winner },
+  } = state;
+
+  useEffect(() => {
+    if (!resultKind) {
+      return;
+    }
+
+    if (resultKind === CHECKMATE) {
+      alert(`${resultKind}! ${winner === BLACK ? "Black" : "White"} won!`);
+    } else {
+      alert(`${resultKind}!`);
+    }
+  }, [resultKind, winner]);
 
   const handlePromote = (piece: PromotePieceSymbol) => {
     dispatch({

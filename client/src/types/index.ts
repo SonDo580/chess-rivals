@@ -36,6 +36,11 @@ type CastlingRights = {
   [K in Color]: CastlingRight;
 };
 
+type GameResult = {
+  kind?: "Checkmate" | "Stalemate" | "Draw";
+  winner?: Color;
+};
+
 export type {
   Color,
   PieceSymbol,
@@ -51,4 +56,5 @@ export type {
   CastlingSide,
   CastlingRight,
   CastlingRights,
+  GameResult,
 };
