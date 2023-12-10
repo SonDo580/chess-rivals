@@ -21,7 +21,7 @@ const createRoomHandler = (socket: Socket) => (playerName: string) => {
   addRoom(room);
 
   // Notice the player
-  socket.emit("roomCreated", room);
+  socket.emit("initRoom", room);
 };
 
 const joinRoomHandler =
@@ -56,7 +56,7 @@ const joinRoomHandler =
     room.players.push(secondPlayer);
 
     // Notice both players
-    socket.emit("roomJoined", room);
+    socket.emit("initRoom", room);
     const firstPlayerId = room.players[0].id;
     io.to(firstPlayerId).emit("opponentJoined", room);
   };
