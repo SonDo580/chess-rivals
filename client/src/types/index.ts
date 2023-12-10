@@ -1,8 +1,9 @@
-type Color = "w" | "b";
+import { Color, PieceSymbol, ResultKind } from "../constants";
 
-type PieceSymbol = "p" | "n" | "b" | "r" | "q" | "k";
-
-type PromotePieceSymbol = Exclude<PieceSymbol, "k" | "p">;
+type PromotePieceSymbol = Exclude<
+  PieceSymbol,
+  PieceSymbol.KING | PieceSymbol.PAWN
+>;
 
 type Piece = `${Color}${PieceSymbol}`;
 
@@ -19,31 +20,51 @@ type EnPassantInfo = {
   pieces: SquarePos[];
 };
 
-type King = "wk" | "bk";
+type King = `${Color}${PieceSymbol.KING}`;
 
 type CheckInfo = {
   king: King | null;
   attacks: SquarePos[];
 };
 
-type CastlingSide = "q" | "k";
+type CastlingSide = PieceSymbol.KING | PieceSymbol.QUEEN;
 
 type CastlingRight = {
-  [K in CastlingSide]: boolean;
+  [key in CastlingSide]: boolean;
 };
 
 type CastlingRights = {
-  [K in Color]: CastlingRight;
+  [key in Color]: CastlingRight;
 };
 
-type GameResult = {
-  kind?: "Checkmate" | "Stalemate" | "Draw";
+type Result = {
+  kind?: ResultKind;
   winner?: Color;
 };
 
+type Player = {
+  id: string;
+  name: string;
+  color: Color;
+};
+
+type Room = Partial<{
+  id: string;
+  players: Player[];
+  turn: Color;
+  board: Board;
+  currentSquare: SquarePos | "";
+  lastMove: SquarePos | "";
+  moves: SquarePos[];
+  needPromotion: boolean;
+  enPassant: EnPassantInfo;
+  check: CheckInfo;
+  castlingRights: CastlingRights;
+  fiftyMoveCount: number;
+  result: Result;
+}>;
+
 export type {
-  Color,
-  PieceSymbol,
   PromotePieceSymbol,
   Piece,
   PromotePiece,
@@ -56,5 +77,7 @@ export type {
   CastlingSide,
   CastlingRight,
   CastlingRights,
-  GameResult,
+  Result,
+  Player,
+  Room,
 };

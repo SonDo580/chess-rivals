@@ -1,12 +1,25 @@
+import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./App.scss";
-import { GameProvider } from "./contexts/GameContext";
-import Board from "./components/Board";
+import Starter from "./pages/Starter";
+import CreateRoom from "./pages/CreateRoom";
+import JoinRoom from "./pages/JoinRoom";
+import Game from "./pages/Game";
+import { toastConfig } from "./utils/toast";
 
 function App() {
   return (
-    <GameProvider>
-      <Board />
-    </GameProvider>
+    <>
+      <Routes>
+        <Route path="/" element={<Starter />} />
+        <Route path="/create" element={<CreateRoom />} />
+        <Route path="/join" element={<JoinRoom />} />
+        <Route path="/game" element={<Game />} />
+      </Routes>
+      <ToastContainer {...toastConfig} />
+    </>
   );
 }
 

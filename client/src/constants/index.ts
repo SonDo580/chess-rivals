@@ -1,30 +1,24 @@
 // Color
-const WHITE = "w";
-const BLACK = "b";
+enum Color {
+  WHITE = "w",
+  BLACK = "b",
+}
 
-// Piece
-const PAWN = "p";
-const KNIGHT = "n";
-const BISHOP = "b";
-const ROOK = "r";
-const QUEEN = "q";
-const KING = "k";
+// Piece Symbol
+enum PieceSymbol {
+  PAWN = "p",
+  KNIGHT = "n",
+  BISHOP = "b",
+  ROOK = "r",
+  QUEEN = "q",
+  KING = "k",
+}
 
 // Game Result
-const CHECKMATE = "Checkmate";
-const STALEMATE = "Stalemate";
-const DRAW = "Draw";
+enum ResultKind {
+  CHECKMATE = "Checkmate",
+  STALEMATE = "Stalemate",
+  DRAW = "Draw",
+}
 
-export {
-  WHITE,
-  BLACK,
-  PAWN,
-  KNIGHT,
-  BISHOP,
-  ROOK,
-  QUEEN,
-  KING,
-  CHECKMATE,
-  STALEMATE,
-  DRAW,
-};
+export { Color, PieceSymbol, ResultKind };

@@ -1,16 +1,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 
-import {
-  BISHOP,
-  BLACK,
-  KING,
-  KNIGHT,
-  PAWN,
-  QUEEN,
-  ROOK,
-  WHITE,
-} from "../constants";
-import { Color, PieceSymbol, Square } from "../types";
+import { Color, PieceSymbol } from "../constants";
+import { Square } from "../types";
 
 import WhiteBishop from "../pieces/WhiteBishop.svg?react";
 import WhiteKing from "../pieces/WhiteKing.svg?react";
@@ -33,21 +24,21 @@ type Pieces = {
 };
 
 const PIECES: Pieces = {
-  [WHITE]: {
-    [KING]: <WhiteKing />,
-    [QUEEN]: <WhiteQueen />,
-    [ROOK]: <WhiteRook />,
-    [BISHOP]: <WhiteBishop />,
-    [KNIGHT]: <WhiteKnight />,
-    [PAWN]: <WhitePawn />,
+  [Color.WHITE]: {
+    [PieceSymbol.KING]: <WhiteKing />,
+    [PieceSymbol.QUEEN]: <WhiteQueen />,
+    [PieceSymbol.ROOK]: <WhiteRook />,
+    [PieceSymbol.BISHOP]: <WhiteBishop />,
+    [PieceSymbol.KNIGHT]: <WhiteKnight />,
+    [PieceSymbol.PAWN]: <WhitePawn />,
   },
-  [BLACK]: {
-    [KING]: <BlackKing />,
-    [QUEEN]: <BlackQueen />,
-    [ROOK]: <BlackRook />,
-    [BISHOP]: <BlackBishop />,
-    [KNIGHT]: <BlackKnight />,
-    [PAWN]: <BlackPawn />,
+  [Color.BLACK]: {
+    [PieceSymbol.KING]: <BlackKing />,
+    [PieceSymbol.QUEEN]: <BlackQueen />,
+    [PieceSymbol.ROOK]: <BlackRook />,
+    [PieceSymbol.BISHOP]: <BlackBishop />,
+    [PieceSymbol.KNIGHT]: <BlackKnight />,
+    [PieceSymbol.PAWN]: <BlackPawn />,
   },
 };
 

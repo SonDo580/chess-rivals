@@ -1,22 +1,20 @@
-import { PromotePieceSymbol } from "../types";
+import { Room } from "../types";
 
-enum ACTIONS {
-  SELECT_SQUARE = "SELECT_SQUARE",
-  PROMOTE = "PROMOTE",
+enum ActionType {
+  INIT_ROOM = "INIT_ROOM",
+  RESET_ROOM = "RESET_ROOM",
 }
 
-type SelectSquareAction = {
-  type: ACTIONS.SELECT_SQUARE;
-  row: number;
-  col: number;
+type InitRoomAction = {
+  type: ActionType.INIT_ROOM;
+  roomInfo: Room;
 };
 
-type PromoteAction = {
-  type: ACTIONS.PROMOTE;
-  piece: PromotePieceSymbol;
+type ResetRoomAction = {
+  type: ActionType.RESET_ROOM;
 };
 
-type GameAction = SelectSquareAction | PromoteAction;
+type ReducerAction = InitRoomAction | ResetRoomAction;
 
-export { ACTIONS };
-export type { GameAction };
+export { ActionType };
+export type { ReducerAction };
