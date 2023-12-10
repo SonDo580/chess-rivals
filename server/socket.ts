@@ -1,7 +1,12 @@
 import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 
-import { createRoomHandler, joinRoomHandler } from "./controllers/room";
+import {
+  createRoomHandler,
+  disconnectHandler,
+  joinRoomHandler,
+  leaveRoomHandler,
+} from "./controllers/room";
 
 const runSocketIO = (httpServer: HttpServer) => {
   const allowedOrigins = [
@@ -16,6 +21,8 @@ const runSocketIO = (httpServer: HttpServer) => {
   io.on("connection", (socket) => {
     socket.on("createRoom", createRoomHandler(socket));
     socket.on("joinRoom", joinRoomHandler(socket, io));
+    socket.on("leaveRoom", leaveRoomHandler(socket, io));
+    socket.on("disconnect", disconnectHandler(socket, io));
   });
 };
 

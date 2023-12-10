@@ -6,6 +6,11 @@ import {
   createRoom,
   createPlayer,
   searchRoomById,
+  removePlayer,
+  deleteRoom,
+  searchRoomByPlayer,
+  resetColor,
+  resetRoom,
 } from "../utils/room";
 
 const createRoomHandler = (socket: Socket) => (playerName: string) => {
@@ -61,4 +66,65 @@ const joinRoomHandler =
     io.to(firstPlayerId).emit("opponentJoined", room);
   };
 
-export { createRoomHandler, joinRoomHandler };
+const leaveRoomHandler = (socket: Socket, io: Server) => (roomId: string) => {
+  // Find the room
+  const room = searchRoomById(roomId);
+
+  // Remove player from room and notice him/her
+  const playerId = socket.id;
+  removePlayer(room, playerId);
+  socket.emit("roomLeaved");
+
+  // Remove room if there's no players left
+  if (room.players.length === 0) {
+    deleteRoom(room);
+    return;
+  }
+
+  // Reset room state
+  resetRoom(room);
+
+  // Assign White for the other player (if needed)
+  const otherPlayer = room.players[0];
+  resetColor(otherPlayer);
+
+  // Notice the other player
+  io.to(otherPlayer.id).emit("opponentLeaved", room);
+};
+
+const disconnectHandler = (socket: Socket, io: Server) => () => {
+  // Find this player's room
+  const playerId = socket.id;
+  const room = searchRoomByPlayer(playerId);
+
+  // Do nothing if player hasn't joined any room
+  if (!room) {
+    return;
+  }
+
+  // Remove player from room
+  removePlayer(room, playerId);
+
+  // Remove room if there's no players left
+  if (room.players.length === 0) {
+    deleteRoom(room);
+    return;
+  }
+
+  // Reset room state
+  resetRoom(room);
+
+  // Assign White for the other player (if needed)
+  const otherPlayer = room.players[0];
+  resetColor(otherPlayer);
+
+  // Notice the other player
+  io.to(otherPlayer.id).emit("opponentLeaved", room);
+};
+
+export {
+  createRoomHandler,
+  joinRoomHandler,
+  leaveRoomHandler,
+  disconnectHandler,
+};

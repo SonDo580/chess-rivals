@@ -13,12 +13,6 @@ const rooms: {
   [index: string]: Room;
 } = {};
 
-const createPlayer = (id: string, name: string, color: Color): Player => ({
-  id,
-  name,
-  color,
-});
-
 const addRoom = (room: Room) => {
   rooms[room.id] = room;
 };
@@ -39,6 +33,56 @@ const createRoom = (firstPlayer: Player): Room => ({
   result: {},
 });
 
+const resetRoom = (room: Room) => {
+  room.turn = Color.WHITE;
+  room.board = initialBoard;
+  room.currentSquare = "";
+  room.lastMove = "";
+  room.moves = [];
+  room.needPromotion = false;
+  room.enPassant = defaultEnPassantInfo;
+  room.check = defaultCheckInfo;
+  room.castlingRights = initialCastlingRights;
+  room.fiftyMoveCount = 0;
+  room.result = {};
+};
+
 const searchRoomById = (roomId: string) => rooms[roomId];
 
-export { createPlayer, createRoom, addRoom, searchRoomById };
+const searchRoomByPlayer = (playerId: string) => {
+  return Object.values(rooms).find((room) =>
+    room.players.some((player) => player.id === playerId)
+  );
+};
+
+const deleteRoom = (room: Room) => {
+  delete rooms[room.id];
+};
+
+const createPlayer = (id: string, name: string, color: Color): Player => ({
+  id,
+  name,
+  color,
+});
+
+const removePlayer = (room: Room, playerId: string) => {
+  room.players = room.players.filter((player) => player.id !== playerId);
+};
+
+const resetColor = (player: Player) => {
+  if (player.color === Color.BLACK) {
+    player.color = Color.WHITE;
+  }
+};
+
+export {
+  createRoom,
+  resetRoom,
+  addRoom,
+  searchRoomById,
+  searchRoomByPlayer,
+  deleteRoom,
+  removePlayer,
+  createPlayer,
+  resetColor,
+};
