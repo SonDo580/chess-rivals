@@ -30,15 +30,19 @@ Check out the beta version: [Chess Rivals Beta](https://sondm-chess.netlify.app)
 1. **Implemented**
 
 - Board visualization, move highlighting
-- Get valid moves for selected piece
+- Basic moves for each piece
 - Special moves: en passant, castling, promotion
 - Check detection
+- Endgame detection: checkmate, stalemate, 50-move
 
 2. **Todo**
 
-- End of the game: checkmate, resigning, draw (stalemate, insufficient material, dead position)
-- Highlight all attacks when checkmate is detected
 - Backend integration and multi-player functionality
+
+3. **Not implemented**
+
+- 3-fold repetition rule
+- Explicit handling of insufficient material and deadlock position (In these cases, the draw result will be realized through 50-move rule).
 
 ## Installation
 
