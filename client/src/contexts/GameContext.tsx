@@ -22,6 +22,10 @@ function GameProvider({ children }: ProviderProps) {
     dispatch({ type: ActionType.INIT_ROOM, roomInfo });
   };
 
+  const resetRoom = () => {
+    dispatch({ type: ActionType.RESET_ROOM });
+  };
+
   useEffect(() => {
     const roomInitHandler = (roomInfo: Room) => {
       initRoom(roomInfo);
@@ -33,12 +37,26 @@ function GameProvider({ children }: ProviderProps) {
       toast(MESSAGE.opponentJoined);
     };
 
+    const roomLeavedHandler = () => {
+      resetRoom();
+      navigate("/");
+    };
+
+    const opponentLeavedHandler = (roomInfo: Room) => {
+      initRoom(roomInfo);
+      toast(MESSAGE.opponentLeaved);
+    };
+
     socket.on("initRoom", roomInitHandler);
     socket.on("opponentJoined", opponentJoinedHandler);
+    socket.on("roomLeaved", roomLeavedHandler);
+    socket.on("opponentLeaved", opponentLeavedHandler);
 
     return () => {
       socket.off("initRoom", roomInitHandler);
       socket.off("opponentJoined", opponentJoinedHandler);
+      socket.off("roomLeaved", roomLeavedHandler);
+      socket.off("opponentLeaved", opponentLeavedHandler);
     };
   }, []);
 
