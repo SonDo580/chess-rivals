@@ -1,7 +1,12 @@
-import { Socket } from "socket.io";
+import { Server, Socket } from "socket.io";
 
 import { Color } from "../constants";
-import { addRoom, createRoom, createPlayer } from "../utils/room";
+import {
+  addRoom,
+  createRoom,
+  createPlayer,
+  searchRoomById,
+} from "../utils/room";
 
 const createRoomHandler = (socket: Socket) => (playerName: string) => {
   // Validate player's name
@@ -19,4 +24,41 @@ const createRoomHandler = (socket: Socket) => (playerName: string) => {
   socket.emit("roomCreated", room);
 };
 
-export { createRoomHandler };
+const joinRoomHandler =
+  (socket: Socket, io: Server) => (playerName: string, roomId: string) => {
+    // Validate player's name
+    if (playerName.trim() === "") {
+      socket.emit("nameError");
+      return;
+    }
+
+    // Validate roomId
+    if (roomId === "") {
+      socket.emit("roomIdEmpty");
+      return;
+    }
+
+    // Check if the room exists
+    const room = searchRoomById(roomId);
+    if (!room) {
+      socket.emit("roomNotExists");
+      return;
+    }
+
+    // Check if there are enough players
+    if (room.players.length === 2) {
+      socket.emit("roomFull");
+      return;
+    }
+
+    // Add this player as second player
+    const secondPlayer = createPlayer(socket.id, playerName, Color.BLACK);
+    room.players.push(secondPlayer);
+
+    // Notice both players
+    socket.emit("roomJoined", room);
+    const firstPlayerId = room.players[0].id;
+    io.to(firstPlayerId).emit("opponentJoined", room);
+  };
+
+export { createRoomHandler, joinRoomHandler };

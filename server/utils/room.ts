@@ -39,4 +39,6 @@ const createRoom = (firstPlayer: Player): Room => ({
   result: {},
 });
 
-export { createRoom, addRoom, createPlayer };
+const searchRoomById = (roomId: string) => rooms[roomId];
+
+export { createPlayer, createRoom, addRoom, searchRoomById };
