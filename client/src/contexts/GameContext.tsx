@@ -47,18 +47,24 @@ function GameProvider({ children }: ProviderProps) {
       toast(MESSAGE.opponentLeaved);
     };
 
+    const roomUpdatedHandler = (roomInfo: Room) => {
+      initRoom(roomInfo);
+    };
+
     socket.on("initRoom", roomInitHandler);
     socket.on("opponentJoined", opponentJoinedHandler);
     socket.on("roomLeaved", roomLeavedHandler);
     socket.on("opponentLeaved", opponentLeavedHandler);
+    socket.on("roomUpdated", roomUpdatedHandler);
 
     return () => {
       socket.off("initRoom", roomInitHandler);
       socket.off("opponentJoined", opponentJoinedHandler);
       socket.off("roomLeaved", roomLeavedHandler);
       socket.off("opponentLeaved", opponentLeavedHandler);
+      socket.off("roomUpdated", roomUpdatedHandler);
     };
-  }, []);
+  }, [navigate]);
 
   return <GameContext.Provider value={state}>{children}</GameContext.Provider>;
 }

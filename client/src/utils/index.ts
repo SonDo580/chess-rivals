@@ -1,12 +1,5 @@
-import { BLACK, PAWN, WHITE } from "../constants";
-import {
-  Board,
-  Color,
-  Piece,
-  PieceSymbol,
-  PromotePieceSymbol,
-  SquarePos,
-} from "../types";
+import { Color, PieceSymbol } from "../constants";
+import { Board, PromotePieceSymbol, SquarePos } from "../types";
 
 const validRow = (row: number) => row >= 0 && row < 8;
 
@@ -24,14 +17,12 @@ const posParse = (pos: SquarePos): [number, number] => {
 const shouldHighlight = (
   squaresToHighlight: SquarePos[],
   row: number,
-  col: number
-) => squaresToHighlight.includes(posString(row, col));
-
-const isLastMove = (lastMove: SquarePos | "", row: number, col: number) =>
-  lastMove === posString(row, col);
+  col: number,
+  allowMove: boolean
+) => allowMove && squaresToHighlight.includes(posString(row, col));
 
 const getOpponentColor = (turn: Color): Color =>
-  turn === WHITE ? BLACK : WHITE;
+  turn === Color.WHITE ? Color.BLACK : Color.WHITE;
 
 type GetPieceReturnType<T> = T extends PromotePieceSymbol
   ? `${Color}${T}`
@@ -56,7 +47,7 @@ const shouldReset50Move = (board: Board, from: SquarePos, to: SquarePos) => {
   // Check for pawn move or capturing
   const pieceSymbol = board[fromRow][fromCol][1];
   const toSquare = board[toRow][toCol];
-  return pieceSymbol === PAWN || toSquare !== "";
+  return pieceSymbol === PieceSymbol.PAWN || toSquare !== "";
 };
 
 export {
@@ -66,7 +57,6 @@ export {
   posString,
   posParse,
   shouldHighlight,
-  isLastMove,
   getOpponentColor,
   getPiece,
   checkInclude,

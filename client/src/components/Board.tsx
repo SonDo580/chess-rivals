@@ -1,18 +1,24 @@
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext } from "react";
 
-import { isLastMove, shouldHighlight } from "../utils";
+import { socket } from "../utils/socket";
+import { posString, shouldHighlight } from "../utils";
 import { GameContext } from "../contexts/GameContext";
 
 import Square from "./Square";
-import Promote from "./Promote";
+// import Promote from "./Promote";
 
-function Board() {
+type Props = {
+  allowMove: boolean;
+};
+
+function Board({ allowMove }: Props) {
   const {
+    id: roomId,
     board,
-    // lastMove,
-    // squaresToHighlight,
+    lastMove,
+    squaresToHighlight,
     // needPromotion,
-    // check,
+    check,
     // result: { kind: resultKind, winner },
   } = useContext(GameContext);
 
@@ -38,11 +44,9 @@ function Board() {
   // first click shows possible moves
   // second click selects a move
   const selectSquare = (row: number, col: number) => {
-    // dispatch({
-    //   type: ACTIONS.SELECT_SQUARE,
-    //   row,
-    //   col,
-    // });
+    if (allowMove) {
+      socket.emit("selectSquare", roomId, row, col);
+    }
   };
 
   return (
@@ -56,13 +60,14 @@ function Board() {
                 square={square}
                 row={i}
                 col={j}
-                // highlight={shouldHighlight(squaresToHighlight, i, j)}
-                // lastMove={isLastMove(lastMove, i, j)}
-                // checked={square === check.king}
-                // selectSquare={selectSquare}
-                highlight={false}
-                lastMove={false}
-                checked={false}
+                highlight={shouldHighlight(
+                  squaresToHighlight!,
+                  i,
+                  j,
+                  allowMove
+                )}
+                lastMove={lastMove === posString(i, j)}
+                checked={square === check!.king}
                 selectSquare={selectSquare}
               />
             ))}

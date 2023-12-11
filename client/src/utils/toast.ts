@@ -1,7 +1,7 @@
 import { ToastPosition, toast } from "react-toastify";
 
 const toastConfig = {
-  autoClose: 1500,
+  autoClose: 1000,
   closeButton: false,
   pauseOnHover: false,
   pauseOnFocusLoss: false,

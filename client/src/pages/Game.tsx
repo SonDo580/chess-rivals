@@ -15,7 +15,7 @@ export default function Game() {
     if (!roomId) {
       navigate("/");
     }
-  }, [roomId]);
+  }, [navigate, roomId]);
 
   if (!roomId) {
     return null;
@@ -27,7 +27,7 @@ export default function Game() {
   return (
     <>
       <Players allowMove={allowMove} player={player} opponent={opponent} />
-      <Board />
+      <Board allowMove={allowMove} />
       <Controls roomId={roomId} />
     </>
   );

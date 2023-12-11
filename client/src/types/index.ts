@@ -56,6 +56,7 @@ type Room = Partial<{
   currentSquare: SquarePos | "";
   lastMove: SquarePos | "";
   moves: SquarePos[];
+  squaresToHighlight: SquarePos[];
   needPromotion: boolean;
   enPassant: EnPassantInfo;
   check: CheckInfo;
