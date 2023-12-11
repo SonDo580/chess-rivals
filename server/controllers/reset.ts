@@ -17,7 +17,7 @@ const resetRequestHandler =
       // Reset room state
       resetRoom(room);
       // Notice current player
-      socket.emit("resetAccepted", room);
+      socket.emit("roomUpdated", room);
       return;
     }
 
@@ -40,9 +40,9 @@ const acceptResetHandler = (socket: Socket, io: Server) => (roomId: string) => {
   resetRoom(room);
 
   // Notify both players
-  socket.emit("resetAccepted", room);
+  socket.emit("roomUpdated", room);
   if (otherPlayer) {
-    io.to(otherPlayer.id).emit("resetAccepted", room);
+    io.to(otherPlayer.id).emit("roomUpdated", room);
   }
 };
 
