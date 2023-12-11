@@ -25,6 +25,7 @@ const createRoom = (firstPlayer: Player): Room => ({
   currentSquare: "",
   lastMove: "",
   moves: [],
+  squaresToHighlight: [],
   needPromotion: false,
   enPassant: defaultEnPassantInfo,
   check: defaultCheckInfo,
@@ -39,6 +40,7 @@ const resetRoom = (room: Room) => {
   room.currentSquare = "";
   room.lastMove = "";
   room.moves = [];
+  room.squaresToHighlight = [];
   room.needPromotion = false;
   room.enPassant = defaultEnPassantInfo;
   room.check = defaultCheckInfo;
@@ -65,6 +67,20 @@ const createPlayer = (id: string, name: string, color: Color): Player => ({
   color,
 });
 
+type GetPlayersReturnType = {
+  thisPlayer?: Player;
+  otherPlayer?: Player;
+};
+
+const getPlayers = (room: Room, playerId: string): GetPlayersReturnType =>
+  room.players.reduce(
+    (acc, player) =>
+      player.id === playerId
+        ? { ...acc, thisPlayer: player }
+        : { ...acc, otherPlayer: player },
+    {}
+  );
+
 const removePlayer = (room: Room, playerId: string) => {
   room.players = room.players.filter((player) => player.id !== playerId);
 };
@@ -82,7 +98,8 @@ export {
   searchRoomById,
   searchRoomByPlayer,
   deleteRoom,
-  removePlayer,
+  getPlayers,
   createPlayer,
+  removePlayer,
   resetColor,
 };
