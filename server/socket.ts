@@ -7,7 +7,7 @@ import {
   joinRoomHandler,
   leaveRoomHandler,
 } from "./controllers/room";
-import { selectSquareHandler } from "./controllers/game";
+import { promotionHandler, selectSquareHandler } from "./controllers/game";
 
 const runSocketIO = (httpServer: HttpServer) => {
   const allowedOrigins = [
@@ -26,6 +26,7 @@ const runSocketIO = (httpServer: HttpServer) => {
     socket.on("disconnect", disconnectHandler(socket, io));
 
     socket.on("selectSquare", selectSquareHandler(socket, io));
+    socket.on("promote", promotionHandler(socket, io));
   });
 };
 

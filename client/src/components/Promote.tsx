@@ -1,4 +1,4 @@
-import { BISHOP, KNIGHT, QUEEN, ROOK } from "../constants";
+import { PieceSymbol } from "../constants";
 import { PromotePieceSymbol } from "../types";
 
 type Props = {
@@ -11,10 +11,16 @@ function Promote({ handlePromote }: Props) {
       <div className="promote">
         <h1>Promote to</h1>
         <div className="options">
-          <button onClick={() => handlePromote(QUEEN)}>Queen</button>
-          <button onClick={() => handlePromote(ROOK)}>Rook</button>
-          <button onClick={() => handlePromote(BISHOP)}>Bishop</button>
-          <button onClick={() => handlePromote(KNIGHT)}>Knight</button>
+          <button onClick={() => handlePromote(PieceSymbol.QUEEN)}>
+            Queen
+          </button>
+          <button onClick={() => handlePromote(PieceSymbol.ROOK)}>Rook</button>
+          <button onClick={() => handlePromote(PieceSymbol.BISHOP)}>
+            Bishop
+          </button>
+          <button onClick={() => handlePromote(PieceSymbol.KNIGHT)}>
+            Knight
+          </button>
         </div>
       </div>
     </div>

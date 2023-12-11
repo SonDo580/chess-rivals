@@ -1,12 +1,17 @@
 import { Server, Socket } from "socket.io";
 
-import { Player, Room } from "../types";
+import { Player, PromotePieceSymbol, Room, SquarePos } from "../types";
 import { defaultEnPassantInfo } from "../constants/default";
 import { getPlayers, searchRoomById } from "../utils/room";
-import { getOpponentColor, posString, shouldReset50Move } from "../utils";
+import {
+  getOpponentColor,
+  getPiece,
+  posString,
+  shouldReset50Move,
+} from "../utils";
 import { updateCastlingRight } from "../utils/king";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
-import { checkMove, getMoves, makeMove } from "../moves";
+import { checkMove, getMoves, makeMove, updateBoard } from "../moves";
 import { getAttackedKing } from "../attacks";
 import { ResultKind } from "../constants";
 
@@ -62,7 +67,7 @@ const selectSquareHandler =
   (roomId: string, row: number, col: number) => {
     // Find the room
     const room = searchRoomById(roomId);
-    // Find players in the room
+    // Get players in the room
     const { otherPlayer } = getPlayers(room, socket.id);
 
     const { turn, board, currentSquare, moves, enPassant } = room;
@@ -181,4 +186,30 @@ const selectSquareHandler =
     noticePlayers(socket, io, room, otherPlayer);
   };
 
-export { selectSquareHandler };
+const promotionHandler =
+  (socket: Socket, io: Server) =>
+  (roomId: string, piece: PromotePieceSymbol) => {
+    // Find the room
+    const room = searchRoomById(roomId);
+    // Get players in the room
+    const { otherPlayer } = getPlayers(room, socket.id);
+
+    const { board, lastMove, turn } = room;
+    const promotedPiece = getPiece(turn, piece);
+    const newBoard = updateBoard(board, lastMove as SquarePos, promotedPiece);
+
+    room.board = newBoard;
+    room.needPromotion = false;
+
+    // Swap turn and check if the opponent king is under attack
+    swapTurn(room);
+    checkAttacks(room);
+
+    // Check for end game
+    checkEndGame(room);
+
+    // Notice both players
+    noticePlayers(socket, io, room, otherPlayer);
+  };
+
+export { selectSquareHandler, promotionHandler };
