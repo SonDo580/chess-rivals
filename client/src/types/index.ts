@@ -63,6 +63,7 @@ type Room = Partial<{
   castlingRights: CastlingRights;
   fiftyMoveCount: number;
   result: Result;
+  resetPending: boolean;
 }>;
 
 export type {

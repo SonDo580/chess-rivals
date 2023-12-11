@@ -32,6 +32,7 @@ const createRoom = (firstPlayer: Player): Room => ({
   castlingRights: initialCastlingRights,
   fiftyMoveCount: 0,
   result: {},
+  resetPending: false,
 });
 
 const resetRoom = (room: Room) => {
@@ -47,6 +48,7 @@ const resetRoom = (room: Room) => {
   room.castlingRights = initialCastlingRights;
   room.fiftyMoveCount = 0;
   room.result = {};
+  room.resetPending = false;
 };
 
 const searchRoomById = (roomId: string) => rooms[roomId];

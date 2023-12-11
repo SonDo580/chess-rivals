@@ -8,6 +8,11 @@ import {
   leaveRoomHandler,
 } from "./controllers/room";
 import { promotionHandler, selectSquareHandler } from "./controllers/game";
+import {
+  acceptResetHandler,
+  rejectResetHandler,
+  resetRequestHandler,
+} from "./controllers/reset";
 
 const runSocketIO = (httpServer: HttpServer) => {
   const allowedOrigins = [
@@ -27,6 +32,10 @@ const runSocketIO = (httpServer: HttpServer) => {
 
     socket.on("selectSquare", selectSquareHandler(socket, io));
     socket.on("promote", promotionHandler(socket, io));
+
+    socket.on("resetRequest", resetRequestHandler(socket, io));
+    socket.on("acceptReset", acceptResetHandler(socket, io));
+    socket.on("rejectReset", rejectResetHandler(socket, io));
   });
 };
 
