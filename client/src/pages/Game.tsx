@@ -49,6 +49,7 @@ export default function Game() {
 
   const { player, opponent } = getPlayerRoles(players!);
   const allowMove = player!.color === turn;
+  const showPromote = allowMove && needPromotion;
 
   const handlePromote = (piece: PromotePieceSymbol) => {
     socket.emit("promote", roomId, piece);
@@ -57,9 +58,9 @@ export default function Game() {
   return (
     <>
       <Players allowMove={allowMove} player={player} opponent={opponent} />
-      <Board allowMove={allowMove} />
+      <Board allowMove={allowMove} flip={player!.color === Color.BLACK} />
       <Controls roomId={roomId} />
-      {allowMove && needPromotion && <Promote handlePromote={handlePromote} />}
+      {showPromote && <Promote handlePromote={handlePromote} />}
     </>
   );
 }

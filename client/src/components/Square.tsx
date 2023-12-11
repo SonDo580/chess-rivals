@@ -1,5 +1,5 @@
 import { Square as SquareType } from "../types";
-import { getSquareClass } from "../utils/square";
+import { getSquareClass } from "../utils/style";
 import Piece from "./Piece";
 
 type Props = {

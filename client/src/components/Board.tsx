@@ -2,14 +2,16 @@ import { Fragment, useContext } from "react";
 
 import { socket } from "../utils/socket";
 import { posString, shouldHighlight } from "../utils";
+import { getBoardClass } from "../utils/style";
 import { GameContext } from "../contexts/GameContext";
 import Square from "./Square";
 
 type Props = {
   allowMove: boolean;
+  flip: boolean;
 };
 
-function Board({ allowMove }: Props) {
+function Board({ allowMove, flip }: Props) {
   const {
     id: roomId,
     board,
@@ -27,7 +29,7 @@ function Board({ allowMove }: Props) {
   };
 
   return (
-    <div className="board">
+    <div className={getBoardClass(flip)}>
       {board!.map((row, i) => (
         <Fragment key={i}>
           {row.map((square, j) => (

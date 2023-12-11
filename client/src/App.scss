@@ -12,6 +12,14 @@ body {
   width: min(100%, 500px);
   aspect-ratio: 1 / 1;
   margin: auto;
+
+  &.flip {
+    transform: rotate(180deg);
+
+    .square {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .square {
