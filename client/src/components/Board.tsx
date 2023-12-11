@@ -16,20 +16,7 @@ function Board({ allowMove }: Props) {
     lastMove,
     squaresToHighlight,
     check,
-    // result: { kind: resultKind, winner },
   } = useContext(GameContext);
-
-  // useEffect(() => {
-  //   if (!resultKind) {
-  //     return;
-  //   }
-
-  //   if (resultKind === CHECKMATE) {
-  //     alert(`${resultKind}! ${winner === BLACK ? "Black" : "White"} won!`);
-  //   } else {
-  //     alert(`${resultKind}!`);
-  //   }
-  // }, [resultKind, winner]);
 
   // first click shows possible moves
   // second click selects a move

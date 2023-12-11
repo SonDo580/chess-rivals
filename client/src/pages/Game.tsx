@@ -1,18 +1,41 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { GameContext } from "../contexts/GameContext";
+import { PromotePieceSymbol } from "../types";
+import { socket } from "../utils/socket";
 import { getPlayerRoles } from "../utils/game";
+import { GameContext } from "../contexts/GameContext";
 import Board from "../components/Board";
 import Controls from "../components/Controls";
 import Players from "../components/Players";
 import Promote from "../components/Promote";
-import { socket } from "../utils/socket";
-import { PromotePieceSymbol } from "../types";
+import { Color, ResultKind } from "../constants";
 
 export default function Game() {
   const navigate = useNavigate();
-  const { id: roomId, players, turn, needPromotion } = useContext(GameContext);
+  const {
+    id: roomId,
+    players,
+    turn,
+    needPromotion,
+    result = {},
+  } = useContext(GameContext);
+
+  const { kind: resultKind, winner } = result;
+
+  useEffect(() => {
+    if (!resultKind) {
+      return;
+    }
+
+    if (resultKind === ResultKind.CHECKMATE) {
+      alert(
+        `${resultKind}! ${winner === Color.BLACK ? "Black" : "White"} won!`
+      );
+    } else {
+      alert(`${resultKind}!`);
+    }
+  }, [resultKind, winner]);
 
   useEffect(() => {
     if (!roomId) {
