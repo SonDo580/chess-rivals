@@ -1,7 +1,8 @@
 import { Player } from "../types";
 import { MESSAGE } from "../constants/messages";
-import Piece from "./Piece";
-import { Color, PieceSymbol } from "../constants";
+import { Color } from "../constants";
+// import { Color, PieceSymbol } from "../constants";
+// import Piece from "./Piece";
 
 type Props = {
   player?: Player;
