@@ -2,7 +2,7 @@
 
 Compete in a chess game and hone your strategic thinking.
 
-![Local Image](/chess-battle.png)
+![Chess-Rivals](https://github.com/SonDo580/chess-rivals/blob/main/client/public/chess-battle.png)
 
 ## Table of Contents
 
