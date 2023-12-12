@@ -13,7 +13,8 @@ import Board from "../components/Board";
 import Controls from "../components/Controls";
 import Players from "../components/Players";
 import Promote from "../components/Promote";
-import Confirm from "../components/Confirm";
+import Modal from "../components/Modal";
+import { getResultMessage } from "../utils";
 
 export default function Game() {
   const navigate = useNavigate();
@@ -24,22 +25,15 @@ export default function Game() {
     needPromotion,
     result = {},
   } = useContext(GameContext);
-
-  const { kind: resultKind, winner } = result;
   const [resetPopupVisible, setResetPopupVisible] = useState(false);
+  const [resultVisible, setResultVisible] = useState(false);
+  const { kind: resultKind, winner } = result;
 
   useEffect(() => {
-    if (!resultKind) {
-      return;
+    if (resultKind) {
+      setResultVisible(true);
     }
-    if (resultKind === ResultKind.CHECKMATE) {
-      alert(
-        `${resultKind}! ${winner === Color.BLACK ? "Black" : "White"} won!`
-      );
-    } else {
-      alert(`${resultKind}!`);
-    }
-  }, [resultKind, winner]);
+  }, [resultKind]);
 
   useEffect(() => {
     const resetRequestHandler = () => {
@@ -86,6 +80,10 @@ export default function Game() {
     setResetPopupVisible(false);
   };
 
+  const hideResult = () => {
+    setResultVisible(false);
+  };
+
   return (
     <>
       <Players allowMove={allowMove} player={player} opponent={opponent} />
@@ -93,10 +91,17 @@ export default function Game() {
       <Controls roomId={roomId} opponent={opponent} />
       {showPromote && <Promote handlePromote={handlePromote} />}
       {resetPopupVisible && (
-        <Confirm
-          question={MESSAGE.resetQuestion}
+        <Modal
+          message={MESSAGE.resetQuestion}
           onOk={acceptReset}
           onCancel={rejectReset}
+        />
+      )}
+      {resultVisible && (
+        <Modal
+          message={getResultMessage(resultKind!, winner)}
+          okText="Close"
+          onOk={hideResult}
         />
       )}
     </>

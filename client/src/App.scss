@@ -223,3 +223,11 @@ body {
     font-size: 1rem;
   }
 }
+
+@media screen and (max-width: 350px) {
+  .promote,
+  .modal {
+    width: 90%;
+    padding: 10px;
+  }
+}

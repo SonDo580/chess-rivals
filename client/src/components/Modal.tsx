@@ -1,13 +1,13 @@
 type Props = {
-  question: string;
+  message: string;
   okText?: string;
   cancelText?: string;
   onOk: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 };
 
-function Confirm({
-  question,
+function Modal({
+  message,
   okText = "Yes",
   cancelText = "No",
   onOk,
@@ -16,7 +16,7 @@ function Confirm({
   return (
     <div className="overlay">
       <div className="modal">
-        <p>{question}</p>
+        <p>{message}</p>
         <button onClick={onOk}>{okText}</button>
         <button onClick={onCancel}>{cancelText}</button>
       </div>
@@ -24,4 +24,4 @@ function Confirm({
   );
 }
 
-export default Confirm;
+export default Modal;

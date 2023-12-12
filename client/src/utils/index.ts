@@ -1,4 +1,4 @@
-import { Color, PieceSymbol } from "../constants";
+import { Color, PieceSymbol, ResultKind } from "../constants";
 import { Board, PromotePieceSymbol, SquarePos } from "../types";
 
 const validRow = (row: number) => row >= 0 && row < 8;
@@ -50,6 +50,14 @@ const shouldReset50Move = (board: Board, from: SquarePos, to: SquarePos) => {
   return pieceSymbol === PieceSymbol.PAWN || toSquare !== "";
 };
 
+const getResultMessage = (resultKind: ResultKind, winner?: Color) => {
+  if (resultKind === ResultKind.CHECKMATE) {
+    return `${resultKind}! ${winner === Color.BLACK ? "Black" : "White"} won!`;
+  } else {
+    return `${resultKind}!`;
+  }
+};
+
 export {
   onBoard,
   validRow,
@@ -61,4 +69,5 @@ export {
   getPiece,
   checkInclude,
   shouldReset50Move,
+  getResultMessage,
 };
