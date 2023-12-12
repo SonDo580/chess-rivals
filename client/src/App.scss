@@ -1,7 +1,96 @@
 $side: 8;
 
 body {
-  // background: radial-gradient(#434343, black);
+  background: radial-gradient(#434343, black);
+}
+
+.button {
+  color: white;
+  font-size: 1.2rem;
+  background: linear-gradient(
+    112.1deg,
+    rgb(32, 38, 57) 11.4%,
+    rgb(63, 76, 119) 70.2%
+  );
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  border-radius: 20px;
+  width: max-content;
+  padding: 10px 20px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0px 0px 10px 0px yellow;
+  }
+}
+
+.wrapper {
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  color: white;
+
+  h1 {
+    margin: 0;
+    font-size: 2.5rem;
+  }
+
+  .link {
+    color: white;
+    font-size: 1.2rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.formField {
+  width: min(400px, 95%);
+  margin: auto;
+
+  input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    padding: 0 5px;
+    font-size: 1rem;
+
+    &:focus {
+      outline: 2px solid yellow;
+    }
+  }
+
+  .error {
+    display: block;
+    color: cyan;
+    margin-top: 5px;
+  }
+}
+
+.players {
+  color: white;
+  text-align: center;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: auto;
+  padding: 10px 20px;
+
+  .player {
+    display: inline;
+
+    .color {
+      color: yellow;
+    }
+  }
 }
 
 .board {
@@ -54,6 +143,17 @@ body {
   }
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+
+  .button {
+    font-size: 1rem;
+  }
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -61,6 +161,21 @@ body {
   left: 0;
   right: 0;
   background-color: rgba($color: #000, $alpha: 0.5);
+
+  button {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: darkslategray;
+
+    &:hover {
+      background-color: slategray;
+    }
+  }
 }
 
 .promote {
@@ -84,17 +199,27 @@ body {
   }
 }
 
-button {
-  cursor: pointer;
-  padding: 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  background-color: darkslategray;
+.modal {
+  background-color: white;
+  color: darkblue;
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  text-align: center;
 
-  &:hover {
-    background-color: slategray;
+  button {
+    margin: 0 5px;
+    padding: 10px 20px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .players {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    font-size: 1rem;
   }
 }

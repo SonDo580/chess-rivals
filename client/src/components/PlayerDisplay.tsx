@@ -1,8 +1,6 @@
 import { Player } from "../types";
 import { MESSAGE } from "../constants/messages";
 import { Color } from "../constants";
-// import { Color, PieceSymbol } from "../constants";
-// import Piece from "./Piece";
 
 type Props = {
   player?: Player;
@@ -15,11 +13,10 @@ function PlayerDisplay({ player }: Props) {
 
   return (
     <div className="player">
-      <span>
-        {player.color === Color.WHITE ? "White - " : "Black - "}
-        {/* <Piece square={`${player.color}${PieceSymbol.KING}`} /> */}
+      <span>{player.name} </span>
+      <span className="color">
+        ({player.color === Color.WHITE ? "White" : "Black"})
       </span>
-      <span>{player.name}</span>
     </div>
   );
 }

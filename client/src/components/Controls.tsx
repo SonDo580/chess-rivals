@@ -27,9 +27,15 @@ export default function Controls({ roomId, opponent }: Props) {
 
   return (
     <div className="controls">
-      <button onClick={copyRoomId}>Room ID</button>
-      <button onClick={requestReset}>Reset</button>
-      <button onClick={leaveRoom}>Leave</button>
+      <button className="button" onClick={copyRoomId}>
+        Room ID
+      </button>
+      <button className="button" onClick={requestReset}>
+        Reset
+      </button>
+      <button className="button" onClick={leaveRoom}>
+        Leave
+      </button>
     </div>
   );
 }
