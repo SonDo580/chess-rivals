@@ -18,7 +18,7 @@ function Modal({
       <div className="modal">
         <p>{message}</p>
         <button onClick={onOk}>{okText}</button>
-        <button onClick={onCancel}>{cancelText}</button>
+        {onCancel && <button onClick={onCancel}>{cancelText}</button>}
       </div>
     </div>
   );

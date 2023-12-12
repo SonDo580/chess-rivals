@@ -67,14 +67,20 @@ const selectSquareHandler =
   (roomId: string, row: number, col: number) => {
     // Find the room
     const room = searchRoomById(roomId);
-    // Get players in the room
-    const { otherPlayer } = getPlayers(room, socket.id);
+
+    // Check if the game already ended
+    if (room.result.kind) {
+      return;
+    }
 
     const { turn, board, currentSquare, moves, enPassant } = room;
     const castlingRight = room.castlingRights[turn];
 
     // Get position string for selected square
     const pos = posString(row, col);
+
+    // Get players in the room
+    const { otherPlayer } = getPlayers(room, socket.id);
 
     // Make a valid move
     if (currentSquare && moves.includes(pos)) {
