@@ -2,6 +2,8 @@
 
 Compete in a chess game and hone your strategic thinking.
 
+![Local Image](/chess-battle.png)
+
 ## Table of Contents
 
 - [Play](#play)
