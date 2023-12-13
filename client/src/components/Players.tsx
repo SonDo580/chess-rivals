@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { Player } from "../types";
-import { getTurnDisplay } from "../utils/game";
+import { getTurnDisplay } from "../utils";
 import PlayerDisplay from "./PlayerDisplay";
 
 type Props = {

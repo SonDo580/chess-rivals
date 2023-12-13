@@ -1,4 +1,4 @@
-const getBoardClass = (flip: boolean) => (flip ? `board flip` : "board");
+const getBoardClass = (flip: boolean) => (flip ? "board flip" : "board");
 
 const getSquareBgClass = (row: number, col: number) => {
   if (row % 2 === 0) {

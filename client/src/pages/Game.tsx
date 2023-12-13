@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { PromotePieceSymbol } from "../types";
+import { getPlayerRoles } from "../utils";
 import { socket } from "../utils/socket";
-import { getPlayerRoles } from "../utils/game";
-import { Color, ResultKind } from "../constants";
+import { Color } from "../constants";
 import { MESSAGE } from "../constants/messages";
 
 import { GameContext } from "../contexts/GameContext";
