@@ -1,7 +1,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 
 import { Color, PieceSymbol } from "../constants";
-import { Piece } from "../types";
+import { Piece as PieceType } from "../types";
 
 import WhiteBishop from "../pieces/WhiteBishop.svg?react";
 import WhiteKing from "../pieces/WhiteKing.svg?react";
@@ -43,7 +43,7 @@ const PIECES: Pieces = {
 };
 
 type Props = {
-  piece: Piece;
+  piece: PieceType;
 };
 
 function Piece({ piece }: Props) {
