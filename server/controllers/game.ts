@@ -2,53 +2,17 @@ import { Server, Socket } from "socket.io";
 
 import { Player, PromotePieceSymbol, Room, SquarePos } from "../types";
 import { defaultEnPassantInfo } from "../constants/default";
+import { getMoves, makeMove, updateBoard } from "../moves";
 import { getPlayers, searchRoomById } from "../utils/room";
-import {
-  getOpponentColor,
-  getPiece,
-  posString,
-  shouldReset50Move,
-} from "../utils";
+import { getPiece, posString, shouldReset50Move } from "../utils";
 import { updateCastlingRight } from "../utils/king";
 import { checkEnPassant, needPromotion } from "../utils/pawn";
-import { checkMove, getMoves, makeMove, updateBoard } from "../moves";
-import { getAttackedKing } from "../attacks";
-import { ResultKind } from "../constants";
-
-const clearSelection = (room: Room) => {
-  room.currentSquare = "";
-  room.moves = [];
-  room.squaresToHighlight = [];
-};
-
-const swapTurn = (room: Room) => {
-  room.turn = getOpponentColor(room.turn);
-};
-
-const checkAttacks = (room: Room) => {
-  const { board, turn } = room;
-  room.check.king = getAttackedKing(board, turn);
-};
-
-const checkEndGame = (room: Room) => {
-  const { board, turn, enPassant, castlingRights, fiftyMoveCount } = room;
-  const canMove = checkMove(board, turn, enPassant, castlingRights[turn]);
-  if (canMove) {
-    // In 50-move rule: 1 move = 2 turn
-    if (fiftyMoveCount === 100) {
-      room.result.kind = ResultKind.DRAW;
-    }
-    return;
-  }
-
-  // No moves available
-  if (!room.check.king) {
-    room.result.kind = ResultKind.STALEMATE;
-  } else {
-    room.result.kind = ResultKind.CHECKMATE;
-    room.result.winner = getOpponentColor(turn);
-  }
-};
+import {
+  checkAttacks,
+  checkEndGame,
+  clearSelection,
+  swapTurn,
+} from "../utils/game";
 
 const noticePlayers = (
   socket: Socket,
