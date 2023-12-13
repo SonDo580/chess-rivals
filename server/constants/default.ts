@@ -14,7 +14,7 @@ const initialBoard: Board = [
 
 const defaultEnPassantInfo: EnPassantInfo = { move: "", pieces: [] };
 
-const defaultCheckInfo: CheckInfo = { king: null, attacks: [] };
+const defaultCheckInfo: CheckInfo = { king: null };
 
 const initialCastlingRights: CastlingRights = {
   [Color.BLACK]: {

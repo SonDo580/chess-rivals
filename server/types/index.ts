@@ -24,7 +24,6 @@ type King = `${Color}${PieceSymbol.KING}`;
 
 type CheckInfo = {
   king: King | null;
-  attacks: SquarePos[];
 };
 
 type CastlingSide = PieceSymbol.KING | PieceSymbol.QUEEN;
