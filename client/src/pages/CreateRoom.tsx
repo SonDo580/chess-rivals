@@ -28,7 +28,6 @@ export default function CreateRoom() {
     };
 
     socket.on("nameError", nameErrorHandler);
-
     return () => {
       socket.off("nameError", nameErrorHandler);
     };
@@ -39,6 +38,7 @@ export default function CreateRoom() {
       <Link to="/" className="link">
         <FaArrowLeft /> Back to Home
       </Link>
+
       <h1>Create Room</h1>
 
       <div className="formField">

@@ -3,11 +3,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./App.scss";
+import { toastConfig } from "./utils/toast";
 import Starter from "./pages/Starter";
 import CreateRoom from "./pages/CreateRoom";
 import JoinRoom from "./pages/JoinRoom";
 import Game from "./pages/Game";
-import { toastConfig } from "./utils/toast";
 
 function App() {
   return (

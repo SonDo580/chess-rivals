@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { PromotePieceSymbol } from "../types";
-import { getPlayerRoles } from "../utils";
-import { socket } from "../utils/socket";
 import { Color } from "../constants";
 import { MESSAGE } from "../constants/messages";
+import { getPlayerRoles, getResultMessage } from "../utils";
+import { socket } from "../utils/socket";
 
 import { GameContext } from "../contexts/GameContext";
 import Board from "../components/Board";
@@ -14,10 +14,12 @@ import Controls from "../components/Controls";
 import Players from "../components/Players";
 import Promote from "../components/Promote";
 import Modal from "../components/Modal";
-import { getResultMessage } from "../utils";
 
-export default function Game() {
+function Game() {
   const navigate = useNavigate();
+  const [resetPopupVisible, setResetPopupVisible] = useState(false);
+  const [resultVisible, setResultVisible] = useState(false);
+
   const {
     id: roomId,
     players,
@@ -25,8 +27,6 @@ export default function Game() {
     needPromotion,
     result = {},
   } = useContext(GameContext);
-  const [resetPopupVisible, setResetPopupVisible] = useState(false);
-  const [resultVisible, setResultVisible] = useState(false);
   const { kind: resultKind, winner } = result;
 
   useEffect(() => {
@@ -107,3 +107,5 @@ export default function Game() {
     </>
   );
 }
+
+export default Game;

@@ -21,16 +21,15 @@ function Square({
   checked,
   selectSquare,
 }: Props) {
-  const onClick = () => {
+  const squareClass = getSquareClass(row, col, highlight, lastMove, checked);
+
+  const handleClick = () => {
     selectSquare(row, col);
   };
 
   return (
-    <div
-      className={getSquareClass(row, col, highlight, lastMove, checked)}
-      onClick={onClick}
-    >
-      <Piece square={square} />
+    <div className={squareClass} onClick={handleClick}>
+      {square && <Piece piece={square} />}
     </div>
   );
 }

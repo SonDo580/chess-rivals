@@ -40,25 +40,21 @@ export default function JoinRoom() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (formHasError()) {
-      return;
+    if (!formHasError()) {
+      socket.emit("joinRoom", name, roomId);
     }
-    socket.emit("joinRoom", name, roomId);
   };
 
   useEffect(() => {
     const nameErrorHandler = () => {
       setNameError(MESSAGE.nameError);
     };
-
     const roomIdEmptyHandler = () => {
       setRoomError(MESSAGE.roomIdEmpty);
     };
-
     const roomNotExistsHandler = () => {
       setRoomError(MESSAGE.roomNotExists);
     };
-
     const roomFullHandler = () => {
       setRoomError(MESSAGE.roomFull);
     };
@@ -81,6 +77,7 @@ export default function JoinRoom() {
       <Link to="/" className="link">
         <FaArrowLeft /> Back to Home
       </Link>
+
       <h1>Join a Room</h1>
 
       <div className="formField">

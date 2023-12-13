@@ -6,21 +6,29 @@ type Props = {
 };
 
 function Promote({ handlePromote }: Props) {
+  const promoteToQueen = () => {
+    handlePromote(PieceSymbol.QUEEN);
+  };
+  const promoteToRook = () => {
+    handlePromote(PieceSymbol.ROOK);
+  };
+  const promoteToBishop = () => {
+    handlePromote(PieceSymbol.BISHOP);
+  };
+  const promoteToKnight = () => {
+    handlePromote(PieceSymbol.KNIGHT);
+  };
+
   return (
     <div className="overlay">
       <div className="promote">
         <h1>Promote to</h1>
+
         <div className="options">
-          <button onClick={() => handlePromote(PieceSymbol.QUEEN)}>
-            Queen
-          </button>
-          <button onClick={() => handlePromote(PieceSymbol.ROOK)}>Rook</button>
-          <button onClick={() => handlePromote(PieceSymbol.BISHOP)}>
-            Bishop
-          </button>
-          <button onClick={() => handlePromote(PieceSymbol.KNIGHT)}>
-            Knight
-          </button>
+          <button onClick={promoteToQueen}>Queen</button>
+          <button onClick={promoteToRook}>Rook</button>
+          <button onClick={promoteToBishop}>Bishop</button>
+          <button onClick={promoteToKnight}>Knight</button>
         </div>
       </div>
     </div>

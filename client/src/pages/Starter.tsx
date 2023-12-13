@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function Starter() {
+function Starter() {
   return (
     <div className="wrapper">
       <h1>Chess Rivals</h1>
@@ -13,3 +13,5 @@ export default function Starter() {
     </div>
   );
 }
+
+export default Starter;
