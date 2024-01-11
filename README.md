@@ -3,7 +3,7 @@
 Compete in a chess game and hone your strategic thinking.
 
 > [!NOTE]
-> The game was developed without any chess libraries
+> The game was developed without any chess libraries.
 
 ![Chess-Rivals](https://github.com/SonDo580/chess-rivals/blob/main/client/public/chess-battle.png)
 
