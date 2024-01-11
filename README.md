@@ -2,40 +2,39 @@
 
 Compete in a chess game and hone your strategic thinking.
 
+> [!NOTE]
+> The game was developed without any chess libraries
+
 ![Chess-Rivals](https://github.com/SonDo580/chess-rivals/blob/main/client/public/chess-battle.png)
-
-## Table of Contents
-
-- [Play](#play)
-- [Technologies](#technologies)
-- [Features](#features)
-- [Development](#development)
 
 ## Play
 
 https://sondm-chess.netlify.app
 
+> [!NOTE]
+> The server may take up to 1 minute to process the first request. It spins down after 15 minutes of no incoming traffic, and will need some time to spin back up.
+
 ## Technologies
 
 - ReactJS
-- TypeScript
 - NodeJS
+- TypeScript
 - Socket.io
 
 ## Features
 
 1. **Implemented**
 
-- Board visualization, move highlighting
-- Basic moves for each piece
+- Board visualization, square highlighting
+- Normal moves
 - Special moves: en passant, castling, promotion
 - Check detection
-- Endgame detection: checkmate, stalemate, 50-move
+- Endgame detection: checkmate, stalemate, 50-move rule
 - Realtime multi-player functionality
 
 2. **Not implemented**
 
-- 3-fold repetition rule
+- Threefold repetition rule
 - Explicit handling of insufficient material and deadlock position (In these cases, the draw result will be realized through 50-move rule)
 
 ## Development
