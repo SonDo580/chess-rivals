@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts",
+    "dev": "ts-node -r tsconfig-paths/register src/server.ts",
     "build": "tsc"
   },
   "author": "",
@@ -23,6 +23,7 @@
     "@types/uuid": "^9.0.7",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   }
 }
