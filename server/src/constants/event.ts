@@ -1,33 +1,33 @@
 export enum ClientEventName {
-  Connection = "connection",
-  Disconnect = "disconnect",
+  CONNECTION = "connection",
+  DISCONNECT = "disconnect",
 
-  CreateRoom = "createRoom",
-  JoinRoom = "joinRoom",
-  LeaveRoom = "leaveRoom",
+  CREATE_ROOM = "createRoom",
+  JOIN_ROOM = "joinRoom",
+  LEAVE_ROOM = "leaveRoom",
 
-  SelectSquare = "selectSquare",
-  Promote = "promote",
+  SELECT_SQUARE = "selectSquare",
+  PROMOTE = "promote",
 
-  ResetRequest = "resetRequest",
-  AcceptReset = "acceptReset",
-  RejectReset = "rejectReset",
+  RESET_REQUEST = "resetRequest",
+  ACCEPT_RESET = "acceptReset",
+  REJECT_RESET = "rejectReset",
 }
 
 export enum ServerEventName {
-  InitRoom = "initRoom",
-  RoomUpdated = "roomUpdated",
+  INIT_ROOM = "initRoom",
+  ROOM_UPDATED = "roomUpdated",
 
-  ResetRequest = "resetRequest",
-  ResetRejected = "resetRejected",
+  RESET_REQUEST = "resetRequest",
+  RESET_REJECTED = "resetRejected",
 
-  RoomLeaved = 'roomLeaved',
-  OpponentJoined = 'opponentJoined',
-  OpponentLeaved = 'opponentLeaved',
+  ROOM_LEAVED = "roomLeaved",
+  OPPONENT_JOINED = "opponentJoined",
+  OPPONENT_LEAVED = "opponentLeaved",
 
-  // for validation when joining 
-  NameError = "nameError",
-  RoomIdEmpty = "roomIdEmpty",
-  RoomNotExists = "roomNotExists",
-  RoomFull = "roomFull",
+  // for validation when joining
+  NAME_ERROR = "nameError",
+  ROOM_ID_EMPTY = "roomIdEmpty",
+  ROOM_NOT_EXISTS = "roomNotExists",
+  ROOM_FULL = "roomFull",
 }

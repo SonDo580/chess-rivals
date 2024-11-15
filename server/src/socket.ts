@@ -21,18 +21,18 @@ const runSocketIO = (httpServer: HttpServer) => {
     cors: { origin: GENERAL_CONFIG.CLIENT_URL },
   });
 
-  io.on(ClientEventName.Connection, (socket) => {
-    socket.on(ClientEventName.CreateRoom, createRoomHandler(socket));
-    socket.on(ClientEventName.JoinRoom, joinRoomHandler(socket, io));
-    socket.on(ClientEventName.LeaveRoom, leaveRoomHandler(socket, io));
-    socket.on(ClientEventName.Disconnect, disconnectHandler(socket, io));
+  io.on(ClientEventName.CONNECTION, (socket) => {
+    socket.on(ClientEventName.CREATE_ROOM, createRoomHandler(socket));
+    socket.on(ClientEventName.JOIN_ROOM, joinRoomHandler(socket, io));
+    socket.on(ClientEventName.LEAVE_ROOM, leaveRoomHandler(socket, io));
+    socket.on(ClientEventName.DISCONNECT, disconnectHandler(socket, io));
 
-    socket.on(ClientEventName.SelectSquare, selectSquareHandler(socket, io));
-    socket.on(ClientEventName.Promote, promotionHandler(socket, io));
+    socket.on(ClientEventName.SELECT_SQUARE, selectSquareHandler(socket, io));
+    socket.on(ClientEventName.PROMOTE, promotionHandler(socket, io));
 
-    socket.on(ClientEventName.ResetRequest, resetRequestHandler(socket, io));
-    socket.on(ClientEventName.AcceptReset, acceptResetHandler(socket, io));
-    socket.on(ClientEventName.RejectReset, rejectResetHandler(socket, io));
+    socket.on(ClientEventName.RESET_REQUEST, resetRequestHandler(socket, io));
+    socket.on(ClientEventName.ACCEPT_RESET, acceptResetHandler(socket, io));
+    socket.on(ClientEventName.REJECT_RESET, rejectResetHandler(socket, io));
   });
 };
 

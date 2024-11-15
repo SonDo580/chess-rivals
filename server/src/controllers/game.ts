@@ -13,6 +13,7 @@ import {
   clearSelection,
   swapTurn,
 } from "../utils/game";
+import { ServerEventName } from "@/constants/event";
 
 const noticePlayers = (
   socket: Socket,
@@ -20,9 +21,9 @@ const noticePlayers = (
   room: Room,
   otherPlayer?: Player
 ) => {
-  socket.emit("roomUpdated", room);
+  socket.emit(ServerEventName.ROOM_UPDATED, room);
   if (otherPlayer) {
-    io.to(otherPlayer.id).emit("roomUpdated", room);
+    io.to(otherPlayer.id).emit(ServerEventName.ROOM_UPDATED, room);
   }
 };
 
@@ -187,7 +188,7 @@ const promotionHandler =
 // File: notifier.ts
 
 export enum EventName {
-  ROOM_UPDATED = "roomUpdated",
+  ROOM_UPDATED = ServerEventName.ROOM_UPDATED,
   SELECT_SQUARE = "selectSquare",
   // ... other events
 }
@@ -206,7 +207,7 @@ export class Notifier {
 
   /* Notify players in the room */
   public notifyPlayers<T>({
-    eventName,
+    eventName, // TODO: players can receive different events 
     data,
     room,
   }: NotifyBothPlayersParams<T>) {
@@ -330,11 +331,11 @@ export class GameController {
 
     swapTurn(room);
 
-    // check if the opponent king is under attack & update the room's attacked king 
+    // check if the opponent king is under attack & update the room's attacked king
     // -> the name 'check' is not good
     checkAttacks(room);
 
-    // Check for end game & update result if needed 
+    // Check for end game & update result if needed
     // -> the name 'check' is not good
     checkEndGame(room);
   }
@@ -409,7 +410,7 @@ export class GameController {
       return false;
     }
 
-    // Select the piece with correct color 
+    // Select the piece with correct color
     const [pieceColor] = square;
     return pieceColor === room.turn;
   }

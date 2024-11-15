@@ -12,11 +12,12 @@ import {
   resetColor,
   resetRoom,
 } from "../utils/room";
+import { ServerEventName } from "@/constants/event";
 
 const createRoomHandler = (socket: Socket) => (playerName: string) => {
   // Validate player's name
   if (playerName.trim() === "") {
-    socket.emit("nameError");
+    socket.emit(ServerEventName.NAME_ERROR);
     return;
   }
 
@@ -26,33 +27,33 @@ const createRoomHandler = (socket: Socket) => (playerName: string) => {
   addRoom(room);
 
   // Notice the player
-  socket.emit("initRoom", room);
+  socket.emit(ServerEventName.INIT_ROOM, room);
 };
 
 const joinRoomHandler =
   (socket: Socket, io: Server) => (playerName: string, roomId: string) => {
     // Validate player's name
     if (playerName.trim() === "") {
-      socket.emit("nameError");
+      socket.emit(ServerEventName.NAME_ERROR);
       return;
     }
 
     // Validate roomId
     if (roomId === "") {
-      socket.emit("roomIdEmpty");
+      socket.emit(ServerEventName.ROOM_ID_EMPTY);
       return;
     }
 
     // Check if the room exists
     const room = searchRoomById(roomId);
     if (!room) {
-      socket.emit("roomNotExists");
+      socket.emit(ServerEventName.ROOM_NOT_EXISTS);
       return;
     }
 
     // Check if there are enough players
     if (room.players.length === 2) {
-      socket.emit("roomFull");
+      socket.emit(ServerEventName.ROOM_FULL);
       return;
     }
 
@@ -61,9 +62,9 @@ const joinRoomHandler =
     room.players.push(secondPlayer);
 
     // Notice both players
-    socket.emit("initRoom", room);
+    socket.emit(ServerEventName.INIT_ROOM, room);
     const firstPlayerId = room.players[0].id;
-    io.to(firstPlayerId).emit("opponentJoined", room);
+    io.to(firstPlayerId).emit(ServerEventName.OPPONENT_JOINED, room);
   };
 
 const leaveRoomHandler = (socket: Socket, io: Server) => (roomId: string) => {
@@ -73,7 +74,7 @@ const leaveRoomHandler = (socket: Socket, io: Server) => (roomId: string) => {
   // Remove player from room and notice him/her
   const playerId = socket.id;
   removePlayer(room, playerId);
-  socket.emit("roomLeaved");
+  socket.emit(ServerEventName.ROOM_LEAVED);
 
   // Remove room if there's no players left
   if (room.players.length === 0) {
@@ -89,7 +90,7 @@ const leaveRoomHandler = (socket: Socket, io: Server) => (roomId: string) => {
   resetColor(otherPlayer);
 
   // Notice the other player
-  io.to(otherPlayer.id).emit("opponentLeaved", room);
+  io.to(otherPlayer.id).emit(ServerEventName.OPPONENT_LEAVED, room);
 };
 
 const disconnectHandler = (socket: Socket, io: Server) => () => {
@@ -119,7 +120,7 @@ const disconnectHandler = (socket: Socket, io: Server) => () => {
   resetColor(otherPlayer);
 
   // Notice the other player
-  io.to(otherPlayer.id).emit("opponentLeaved", room);
+  io.to(otherPlayer.id).emit(ServerEventName.OPPONENT_LEAVED, room);
 };
 
 export {

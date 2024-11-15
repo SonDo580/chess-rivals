@@ -1,5 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { getPlayers, resetRoom, searchRoomById } from "../utils/room";
+import { ServerEventName } from "@/constants/event";
 
 const resetRequestHandler =
   (socket: Socket, io: Server) => (roomId: string) => {
@@ -17,13 +18,13 @@ const resetRequestHandler =
       // Reset room state
       resetRoom(room);
       // Notice current player
-      socket.emit("roomUpdated", room);
+      socket.emit(ServerEventName.ROOM_UPDATED, room);
       return;
     }
 
     // Ask for the other player's acceptance
     room.resetPending = true;
-    io.to(otherPlayer.id).emit("resetRequest");
+    io.to(otherPlayer.id).emit(ServerEventName.RESET_REQUEST);
   };
 
 const acceptResetHandler = (socket: Socket, io: Server) => (roomId: string) => {
@@ -40,9 +41,9 @@ const acceptResetHandler = (socket: Socket, io: Server) => (roomId: string) => {
   resetRoom(room);
 
   // Notify both players
-  socket.emit("roomUpdated", room);
+  socket.emit(ServerEventName.ROOM_UPDATED, room);
   if (otherPlayer) {
-    io.to(otherPlayer.id).emit("roomUpdated", room);
+    io.to(otherPlayer.id).emit(ServerEventName.ROOM_UPDATED, room);
   }
 };
 
@@ -55,7 +56,7 @@ const rejectResetHandler = (socket: Socket, io: Server) => (roomId: string) => {
   // Notify the other player
   room.resetPending = false;
   if (otherPlayer) {
-    io.to(otherPlayer.id).emit("resetRejected");
+    io.to(otherPlayer.id).emit(ServerEventName.RESET_REJECTED);
   }
 };
 
