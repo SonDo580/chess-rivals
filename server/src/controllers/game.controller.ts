@@ -31,7 +31,7 @@ export class GameController {
     const room = searchRoomById(roomId);
 
     // Check if the game has already ended
-    if (GameController.isGameEnded(room)) {
+    if (this.isGameEnded(room)) {
       return;
     }
 
@@ -39,22 +39,23 @@ export class GameController {
 
     // Make a move if there's a current selection and the move is valid
     if (room.currentSquare && room.moves.includes(position)) {
-      GameController.processMove(room, position);
+      this.processMove(room, position);
       this.notifyPlayers(room);
       return;
     }
 
     // Handle selecting a new piece
-    if (!GameController.isSquareValidForSelection(room, row, col)) {
+    if (!this.isSquareValidForSelection(room, row, col)) {
       clearSelection(room);
       this.notifyPlayers(room);
       return;
     }
 
     room.currentSquare = position;
-    room.moves = GameController.getValidMoves(room, row, col);
+    room.moves = this.getValidMoves(room, row, col);
     room.squaresToHighlight = [position, ...room.moves];
 
+    // Notify both players
     this.notifyPlayers(room);
   }
 
@@ -75,10 +76,10 @@ export class GameController {
     // Check for end game
     checkEndGame(room);
 
-    // Notice both players
     this.notifyPlayers(room);
   }
 
+  /* Notify both players with ROOM_UPDATED event */
   private notifyPlayers(room: Room) {
     this.notificationService.notifyPlayers({
       eventName: ServerEventName.ROOM_UPDATED,
@@ -90,12 +91,12 @@ export class GameController {
   }
 
   /* Check if the game is already ended */
-  private static isGameEnded(room: Room) {
+  private isGameEnded(room: Room) {
     return !!room.result.kind;
   }
 
   /* Make a move & update room state */
-  private static processMove(room: Room, position: SquarePos) {
+  private processMove(room: Room, position: SquarePos) {
     const { turn, board, enPassant, castlingRights } = room;
     const currentSquare = room.currentSquare as SquarePos;
 
@@ -115,8 +116,8 @@ export class GameController {
     // The current king should not be in danger now. Reset 'check' state
     checkAttacks(room);
 
-    GameController.updateCastlingRights(room, currentSquare);
-    GameController.updateEnPassant(room, currentSquare, position);
+    this.updateCastlingRights(room, currentSquare);
+    this.updateEnPassant(room, currentSquare, position);
 
     // Handle pawn promotion
     if (needPromotion(room.board, position, turn)) {
@@ -124,7 +125,7 @@ export class GameController {
       return;
     }
 
-    GameController.update50MoveState(room, currentSquare, position);
+    this.update50MoveState(room, currentSquare, position);
 
     swapTurn(room);
 
@@ -136,7 +137,7 @@ export class GameController {
   }
 
   /* Update castling right for current player */
-  private static updateCastlingRights(room: Room, currentSquare: SquarePos) {
+  private updateCastlingRights(room: Room, currentSquare: SquarePos) {
     const { turn, board, castlingRights } = room;
     const castlingRight = castlingRights[turn];
 
@@ -153,7 +154,7 @@ export class GameController {
   }
 
   /* Update en-passant state */
-  private static updateEnPassant(
+  private updateEnPassant(
     room: Room,
     currentSquare: SquarePos,
     position: SquarePos
@@ -174,7 +175,7 @@ export class GameController {
   }
 
   /* Update state for 50-Move rule */
-  private static update50MoveState(
+  private update50MoveState(
     room: Room,
     currentSquare: SquarePos,
     position: SquarePos
@@ -187,11 +188,7 @@ export class GameController {
   }
 
   /* Check if selected square is valid (first click) */
-  private static isSquareValidForSelection(
-    room: Room,
-    row: number,
-    col: number
-  ) {
+  private isSquareValidForSelection(room: Room, row: number, col: number) {
     const square = room.board[row][col];
 
     // Select an empty square
@@ -210,7 +207,7 @@ export class GameController {
   }
 
   /* Get valid moves for the selected square */
-  private static getValidMoves(room: Room, row: number, col: number) {
+  private getValidMoves(room: Room, row: number, col: number) {
     const { board, turn, enPassant, castlingRights } = room;
     return getMoves(board, row, col, turn, enPassant, castlingRights[turn]);
   }
