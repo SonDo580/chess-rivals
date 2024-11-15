@@ -13,15 +13,11 @@ import {
   rejectResetHandler,
   resetRequestHandler,
 } from "./controllers/reset";
+import { GENERAL_CONFIG } from "./config";
 
 const runSocketIO = (httpServer: HttpServer) => {
-  const allowedOrigins = [
-    "https://sondm-chess.netlify.app",
-    "http://localhost:5173",
-  ];
-
   const io = new Server(httpServer, {
-    cors: { origin: allowedOrigins },
+    cors: { origin: GENERAL_CONFIG.CLIENT_URL },
   });
 
   io.on("connection", (socket) => {
