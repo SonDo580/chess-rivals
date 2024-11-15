@@ -8,11 +8,7 @@ import {
   leaveRoomHandler,
 } from "./controllers/room";
 import { GameController } from "./controllers/game.controller";
-import {
-  acceptResetHandler,
-  rejectResetHandler,
-  resetRequestHandler,
-} from "./controllers/reset";
+import { ResetController } from "./controllers/reset.controller";
 import { GENERAL_CONFIG } from "./config";
 import { ClientEventName } from "./constants/event";
 
@@ -23,21 +19,28 @@ const runSocketIO = (httpServer: HttpServer) => {
 
   io.on(ClientEventName.CONNECTION, (socket) => {
     const gameController = new GameController(socket, io);
+    const resetController = new ResetController(socket, io);
 
+    // Room management
     socket.on(ClientEventName.CREATE_ROOM, createRoomHandler(socket));
     socket.on(ClientEventName.JOIN_ROOM, joinRoomHandler(socket, io));
     socket.on(ClientEventName.LEAVE_ROOM, leaveRoomHandler(socket, io));
     socket.on(ClientEventName.DISCONNECT, disconnectHandler(socket, io));
 
+    // Main game flow
     socket.on(
       ClientEventName.SELECT_SQUARE,
       gameController.selectSquareHandler
     );
     socket.on(ClientEventName.PROMOTE, gameController.promotionHandler);
 
-    socket.on(ClientEventName.RESET_REQUEST, resetRequestHandler(socket, io));
-    socket.on(ClientEventName.ACCEPT_RESET, acceptResetHandler(socket, io));
-    socket.on(ClientEventName.REJECT_RESET, rejectResetHandler(socket, io));
+    // Reset handling
+    socket.on(
+      ClientEventName.RESET_REQUEST,
+      resetController.resetRequestHandler
+    );
+    socket.on(ClientEventName.ACCEPT_RESET, resetController.acceptResetHandler);
+    socket.on(ClientEventName.REJECT_RESET, resetController.rejectResetHandler);
   });
 };
 
