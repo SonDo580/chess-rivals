@@ -41,7 +41,7 @@ export class NotificationService {
   }
 
   /* Notify the other player if they joined */
-  private notifyOtherPlayer<T>(
+  public notifyOtherPlayer<T>(
     { eventName, data }: NotifyPlayerParams<T>,
     room: Room
   ) {
