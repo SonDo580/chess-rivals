@@ -7,7 +7,7 @@ import {
   joinRoomHandler,
   leaveRoomHandler,
 } from "./controllers/room";
-import { promotionHandler, selectSquareHandler } from "./controllers/game";
+import { GameController } from "./controllers/game.controller";
 import {
   acceptResetHandler,
   rejectResetHandler,
@@ -22,13 +22,18 @@ const runSocketIO = (httpServer: HttpServer) => {
   });
 
   io.on(ClientEventName.CONNECTION, (socket) => {
+    const gameController = new GameController(socket, io);
+
     socket.on(ClientEventName.CREATE_ROOM, createRoomHandler(socket));
     socket.on(ClientEventName.JOIN_ROOM, joinRoomHandler(socket, io));
     socket.on(ClientEventName.LEAVE_ROOM, leaveRoomHandler(socket, io));
     socket.on(ClientEventName.DISCONNECT, disconnectHandler(socket, io));
 
-    socket.on(ClientEventName.SELECT_SQUARE, selectSquareHandler(socket, io));
-    socket.on(ClientEventName.PROMOTE, promotionHandler(socket, io));
+    socket.on(
+      ClientEventName.SELECT_SQUARE,
+      gameController.selectSquareHandler
+    );
+    socket.on(ClientEventName.PROMOTE, gameController.promotionHandler);
 
     socket.on(ClientEventName.RESET_REQUEST, resetRequestHandler(socket, io));
     socket.on(ClientEventName.ACCEPT_RESET, acceptResetHandler(socket, io));
