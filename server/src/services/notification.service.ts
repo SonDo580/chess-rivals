@@ -52,4 +52,11 @@ export class NotificationService {
       this.io.to(otherPlayer.id).emit(eventName, data);
     }
   }
+
+  public notifyPlayerById<T>(
+    { eventName, data }: NotifyPlayerParams<T>,
+    playerId: string
+  ) {
+    this.io.to(playerId).emit(eventName, data);
+  }
 }
