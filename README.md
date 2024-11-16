@@ -3,7 +3,9 @@
 Compete in a chess game and hone your strategic thinking.
 
 > [!NOTE]
-> The game was developed without any chess libraries.
+> The game was developed without any chess libraries.  
+> In a real chess engine, a special data structure called "FEN string" is typically used to represent the board state.  
+> In my implementation, I used a 2-dimensional array.
 
 ![Chess-Rivals](https://github.com/SonDo580/chess-rivals/blob/main/client/public/chess-battle.png)
 
@@ -12,7 +14,7 @@ Compete in a chess game and hone your strategic thinking.
 https://sondm-chess.netlify.app
 
 > [!NOTE]
-> The server may take up to 1 minute to process the first request. It spins down after 15 minutes of no incoming traffic, and will need some time to spin back up.
+> The server may take up to 1 minute to process the first request (It spins down after 15 minutes of no incoming traffic, and will need some time to spin back up)
 
 ## Technologies
 
@@ -45,15 +47,18 @@ https://sondm-chess.netlify.app
    git clone https://github.com/SonDo580/chess-rivals.git
    ```
 
-2. Install server dependencies and run server
+2. Define environment variables in `.env` for client and server
+   (see `.env.example`)
 
-   ```bash
-   cd server
-   yarn
-   yarn dev
-   ```
+3. Install server dependencies and run server
 
-3. Install client dependencies and run client
+```bash
+cd server
+yarn
+yarn dev
+```
+
+4. Install client dependencies and run client
 
    ```bash
    cd client
@@ -61,4 +66,4 @@ https://sondm-chess.netlify.app
    yarn dev
    ```
 
-4. Access the game in your web browser at `http://localhost:5173` by default
+5. Access the game in your web browser at `http://localhost:5173` by default

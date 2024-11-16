@@ -13,7 +13,7 @@ import { getAttackedKing } from "../attacks";
 
 import { getPawnMoves } from "./pawn";
 import { getKnightMoves } from "./knight";
-import { getBishopRookQueenMoves } from "./brq";
+import { getBishopRookQueenMoves } from "./bishop-rook-queen";
 import { getKingMoves } from "./king";
 
 // Get all valid moves for a piece

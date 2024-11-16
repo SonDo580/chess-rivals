@@ -3,6 +3,7 @@ import { Color, PieceSymbol } from "../constants";
 import { defaultEnPassantInfo } from "../constants/default";
 import { posParse, posString, validCol } from ".";
 
+// -> the function name is not good
 const checkEnPassant = (
   board: Board,
   from: SquarePos,

@@ -5,7 +5,7 @@ import { getKingPos } from "../utils/king";
 
 import { isAttackedByKnight } from "./knight";
 import { isAttackedByPawn } from "./pawn";
-import { isAttackedByBishopRookQueen } from "./brq";
+import { isAttackedByBishopRookQueen } from "./bishop-rook-queen";
 
 // Get the king that is being attacked
 const getAttackedKing = (board: Board, turn: Color): King | null => {

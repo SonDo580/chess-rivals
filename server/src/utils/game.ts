@@ -14,11 +14,13 @@ const swapTurn = (room: Room) => {
   room.turn = getOpponentColor(room.turn);
 };
 
+// -> the function name is not good
 const checkAttacks = (room: Room) => {
   const { board, turn } = room;
   room.check.king = getAttackedKing(board, turn);
 };
 
+// -> the name 'check' is not good
 const checkEndGame = (room: Room) => {
   const { board, turn, enPassant, castlingRights, fiftyMoveCount } = room;
   const canMove = checkMove(board, turn, enPassant, castlingRights[turn]);

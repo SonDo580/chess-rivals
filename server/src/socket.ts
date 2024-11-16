@@ -1,41 +1,42 @@
 import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 
-import {
-  createRoomHandler,
-  disconnectHandler,
-  joinRoomHandler,
-  leaveRoomHandler,
-} from "./controllers/room";
-import { promotionHandler, selectSquareHandler } from "./controllers/game";
-import {
-  acceptResetHandler,
-  rejectResetHandler,
-  resetRequestHandler,
-} from "./controllers/reset";
+import { RoomController } from "./controllers/room.controller";
+import { GameController } from "./controllers/game.controller";
+import { ResetController } from "./controllers/reset.controller";
+import { GENERAL_CONFIG } from "./config";
+import { ClientEventName } from "./constants/event";
 
 const runSocketIO = (httpServer: HttpServer) => {
-  const allowedOrigins = [
-    "https://sondm-chess.netlify.app",
-    "http://localhost:5173",
-  ];
-
   const io = new Server(httpServer, {
-    cors: { origin: allowedOrigins },
+    cors: { origin: GENERAL_CONFIG.CLIENT_URL },
   });
 
-  io.on("connection", (socket) => {
-    socket.on("createRoom", createRoomHandler(socket));
-    socket.on("joinRoom", joinRoomHandler(socket, io));
-    socket.on("leaveRoom", leaveRoomHandler(socket, io));
-    socket.on("disconnect", disconnectHandler(socket, io));
+  io.on(ClientEventName.CONNECTION, (socket) => {
+    const roomController = new RoomController(socket, io);
+    const gameController = new GameController(socket, io);
+    const resetController = new ResetController(socket, io);
 
-    socket.on("selectSquare", selectSquareHandler(socket, io));
-    socket.on("promote", promotionHandler(socket, io));
+    // Room management
+    socket.on(ClientEventName.CREATE_ROOM, roomController.createRoomHandler);
+    socket.on(ClientEventName.JOIN_ROOM, roomController.joinRoomHandler);
+    socket.on(ClientEventName.LEAVE_ROOM, roomController.leaveRoomHandler);
+    socket.on(ClientEventName.DISCONNECT, roomController.disconnectHandler);
 
-    socket.on("resetRequest", resetRequestHandler(socket, io));
-    socket.on("acceptReset", acceptResetHandler(socket, io));
-    socket.on("rejectReset", rejectResetHandler(socket, io));
+    // Main game flow
+    socket.on(
+      ClientEventName.SELECT_SQUARE,
+      gameController.selectSquareHandler
+    );
+    socket.on(ClientEventName.PROMOTE, gameController.promotionHandler);
+
+    // Reset handling
+    socket.on(
+      ClientEventName.RESET_REQUEST,
+      resetController.resetRequestHandler
+    );
+    socket.on(ClientEventName.ACCEPT_RESET, resetController.acceptResetHandler);
+    socket.on(ClientEventName.REJECT_RESET, resetController.rejectResetHandler);
   });
 };
 
