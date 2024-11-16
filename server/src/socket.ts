@@ -1,12 +1,7 @@
 import { Server as HttpServer } from "http";
 import { Server } from "socket.io";
 
-import {
-  createRoomHandler,
-  disconnectHandler,
-  joinRoomHandler,
-  leaveRoomHandler,
-} from "./controllers/room";
+import { RoomController } from "./controllers/room.controller";
 import { GameController } from "./controllers/game.controller";
 import { ResetController } from "./controllers/reset.controller";
 import { GENERAL_CONFIG } from "./config";
@@ -18,14 +13,15 @@ const runSocketIO = (httpServer: HttpServer) => {
   });
 
   io.on(ClientEventName.CONNECTION, (socket) => {
+    const roomController = new RoomController(socket, io);
     const gameController = new GameController(socket, io);
     const resetController = new ResetController(socket, io);
 
     // Room management
-    socket.on(ClientEventName.CREATE_ROOM, createRoomHandler(socket));
-    socket.on(ClientEventName.JOIN_ROOM, joinRoomHandler(socket, io));
-    socket.on(ClientEventName.LEAVE_ROOM, leaveRoomHandler(socket, io));
-    socket.on(ClientEventName.DISCONNECT, disconnectHandler(socket, io));
+    socket.on(ClientEventName.CREATE_ROOM, roomController.createRoomHandler);
+    socket.on(ClientEventName.JOIN_ROOM, roomController.joinRoomHandler);
+    socket.on(ClientEventName.LEAVE_ROOM, roomController.leaveRoomHandler);
+    socket.on(ClientEventName.DISCONNECT, roomController.disconnectHandler);
 
     // Main game flow
     socket.on(
