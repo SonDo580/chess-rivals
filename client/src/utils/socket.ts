@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 
+// TODO: use environment variable SERVER_URL
 const serverURL =
   process.env.NODE_ENV === "production"
     ? "https://chess-server-ry8x.onrender.com"
