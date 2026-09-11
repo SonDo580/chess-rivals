@@ -18,25 +18,46 @@ const runSocketIO = (httpServer: HttpServer) => {
     const resetController = new ResetController(socket, io);
 
     // Room management
-    socket.on(ClientEventName.CREATE_ROOM, roomController.createRoomHandler);
-    socket.on(ClientEventName.JOIN_ROOM, roomController.joinRoomHandler);
-    socket.on(ClientEventName.LEAVE_ROOM, roomController.leaveRoomHandler);
-    socket.on(ClientEventName.DISCONNECT, roomController.disconnectHandler);
+    socket.on(
+      ClientEventName.CREATE_ROOM,
+      roomController.createRoomHandler.bind(roomController),
+    );
+    socket.on(
+      ClientEventName.JOIN_ROOM,
+      roomController.joinRoomHandler.bind(roomController),
+    );
+    socket.on(
+      ClientEventName.LEAVE_ROOM,
+      roomController.leaveRoomHandler.bind(roomController),
+    );
+    socket.on(
+      ClientEventName.DISCONNECT,
+      roomController.disconnectHandler.bind(roomController),
+    );
 
     // Main game flow
     socket.on(
       ClientEventName.SELECT_SQUARE,
-      gameController.selectSquareHandler
+      gameController.selectSquareHandler.bind(gameController),
     );
-    socket.on(ClientEventName.PROMOTE, gameController.promotionHandler);
+    socket.on(
+      ClientEventName.PROMOTE,
+      gameController.promotionHandler.bind(gameController),
+    );
 
     // Reset handling
     socket.on(
       ClientEventName.RESET_REQUEST,
-      resetController.resetRequestHandler
+      resetController.resetRequestHandler.bind(resetController),
     );
-    socket.on(ClientEventName.ACCEPT_RESET, resetController.acceptResetHandler);
-    socket.on(ClientEventName.REJECT_RESET, resetController.rejectResetHandler);
+    socket.on(
+      ClientEventName.ACCEPT_RESET,
+      resetController.acceptResetHandler.bind(resetController),
+    );
+    socket.on(
+      ClientEventName.REJECT_RESET,
+      resetController.rejectResetHandler.bind(resetController),
+    );
   });
 };
 
