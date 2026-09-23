@@ -1,6 +1,6 @@
 import { Fragment, useContext } from "react";
 
-import { socket } from "../utils/socket";
+import { socket } from "../socket";
 import { posString, shouldHighlight } from "../utils";
 import { getBoardClass } from "../utils/style";
 import { GameContext } from "../contexts/GameContext";

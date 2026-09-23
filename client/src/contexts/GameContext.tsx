@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { Room } from "../types";
-import { socket } from "../utils/socket";
+import { socket } from "../socket";
 import { MESSAGE } from "../constants/messages";
 import { initialState, reducer } from "./GameReducer";
 import { ActionType } from "./GameActions";

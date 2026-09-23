@@ -1,6 +1,6 @@
 import { Player } from "../types";
 import { MESSAGE } from "../constants/messages";
-import { socket } from "../utils/socket";
+import { socket } from "../socket";
 import { showSingleToast } from "../utils/toast";
 
 type Props = {

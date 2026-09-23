@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 
 import { MESSAGE } from "../constants/messages";
-import { socket } from "../utils/socket";
+import { socket } from "../socket";
 
 export default function JoinRoom() {
   const [name, setName] = useState("");

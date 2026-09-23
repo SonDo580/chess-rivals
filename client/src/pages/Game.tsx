@@ -6,7 +6,7 @@ import { PromotePieceSymbol } from "../types";
 import { Color } from "../constants";
 import { MESSAGE } from "../constants/messages";
 import { getPlayerRoles, getResultMessage } from "../utils";
-import { socket } from "../utils/socket";
+import { socket } from "../socket";
 
 import { GameContext } from "../contexts/GameContext";
 import Board from "../components/Board";

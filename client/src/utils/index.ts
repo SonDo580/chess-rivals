@@ -1,6 +1,6 @@
 import { Color, ResultKind } from "../constants";
 import { Player, SquarePos } from "../types";
-import { socket } from "./socket";
+import { socket } from "../socket";
 
 const posString = (row: number, col: number): SquarePos => `${row}-${col}`;
 
