@@ -2,23 +2,18 @@
 
 Compete in a chess game and hone your strategic thinking.
 
-> [!NOTE]
->
-> - The server spins down after 15 minutes of inactivity, so the initial load may take up to 1 minute *(clicking "Create Room" or "Join Room" doesn't work during this period)*.
-> - The game was developed without any chess libraries. I use 2D array to represent board state. A real chess engine typically uses `FEN string`.
-
 ![Chess-Rivals](https://github.com/SonDo580/chess-rivals/blob/main/client/public/chess-battle.png)
 
 ## Play
 
-https://sondm-chess.netlify.app
+- Website: https://sondm-chess.netlify.app
+- Go to the website, create a room, copy the room ID and send it to your friend so he/she can join.
 
 ## Technologies
 
-- ReactJS
-- NodeJS
-- TypeScript
-- Socket.io
+- Frontend: `ReactJS` + `TS`
+- Backend: `NodeJS` + `TS`
+- Networking: `Socket.io`
 
 ## Features
 
@@ -34,7 +29,11 @@ https://sondm-chess.netlify.app
 2. **Not implemented**
 
 - Threefold repetition rule.
-- Explicit handling of insufficient material and deadlock position _(In these cases, the draw result will be realized through 50-move rule)_.
+- Explicit handling of insufficient material and deadlock positions _(In these cases, the draw result will be realized through 50-move rule)_.
+
+## Implementation notes
+
+- I use 2D array to represent board state. A real chess engine typically uses `FEN string`.
 
 ## Development
 
@@ -44,7 +43,7 @@ https://sondm-chess.netlify.app
 git clone https://github.com/SonDo580/chess-rivals.git
 ```
 
-2. Define environment variables in `.env` for client and server (see `.env.example`)
+2. Define environment variables in `.env` for client and server _(see `.env.example`)_
 
 3. Install server dependencies and run server
 
@@ -62,4 +61,4 @@ yarn
 yarn dev
 ```
 
-5. Access the game in your web browser at `http://localhost:5173` by default
+5. Access the game in your web browser at `http://localhost:5173`
